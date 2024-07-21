@@ -43,12 +43,16 @@ public class RobotContainer {
     operatorController.a().whileTrue(new PrepareLaunchSpeaker(shooterSubsystem).withTimeout(ShooterConstants.kLauncherDelay).andThen(new LaunchSpeaker(shooterSubsystem)).handleInterrupt(() -> shooterSubsystem.stop()));
     operatorController.b().whileTrue(new PrepareLaunchAmp(shooterSubsystem).withTimeout(0.5).andThen(new LaunchAmp(shooterSubsystem)).handleInterrupt(() -> shooterSubsystem.stop()));
 
-    // Set up a binding to run the intake command while the operator is pressing and holding the left Bumper
-    operatorController.leftBumper().whileTrue(shooterSubsystem.getIntakeCommand());
+    // Set up a binding to run the intake command while the operator is pressing and holding the x button
+    operatorController.x().whileTrue(shooterSubsystem.getIntakeCommand());
+
+    operatorController.leftBumper()
+        .whileTrue(new InstantCommand(() -> driveSubsystem.setMaxOutput(1.0)))
+        .whileFalse(new InstantCommand(() -> driveSubsystem.setMaxOutput(DriveConstants.defaultSpeed)));
 
     operatorController.rightBumper()
         .whileTrue(new InstantCommand(() -> driveSubsystem.setMaxOutput(0.1)))
-        .whileFalse(new InstantCommand(() -> driveSubsystem.setMaxOutput(DriveConstants.maxSpeed)));
+        .whileFalse(new InstantCommand(() -> driveSubsystem.setMaxOutput(DriveConstants.defaultSpeed)));
   
   }
 
