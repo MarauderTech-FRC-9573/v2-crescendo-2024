@@ -69,6 +69,7 @@ public final class Constants {
     
     // default speed of the robot
     public static double defaultSpeed = 0.8;
+    public static double maxSpeed;
     
     
     public static final LinearSystem<N2, N2, N2> kDrivetrainPlant = LinearSystemId.identifyDrivetrainSystem(kvVoltSecondsPerMeter, kaVoltSecondsSquaredPerMeter,kvVoltSecondsPerRadian, kaVoltSecondsSquaredPerRadian);    
