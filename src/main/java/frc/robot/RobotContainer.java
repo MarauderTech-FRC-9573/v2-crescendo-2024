@@ -47,12 +47,12 @@ public class RobotContainer {
     operatorController.x().whileTrue(shooterSubsystem.getIntakeCommand());
 
     operatorController.leftBumper()
-        .whileTrue(new InstantCommand(() -> driveSubsystem.setMaxOutput(1.0)))
-        .whileFalse(new InstantCommand(() -> driveSubsystem.setMaxOutput(DriveConstants.defaultSpeed)));
+        .whileTrue(new InstantCommand(() -> driveSubsystem.setMaxOutput(turboSpeed)))
+        .whileFalse(new InstantCommand(() -> driveSubsystem.setMaxOutput(defaultSpeed)));
 
     operatorController.rightBumper()
-        .whileTrue(new InstantCommand(() -> driveSubsystem.setMaxOutput(0.1)))
-        .whileFalse(new InstantCommand(() -> driveSubsystem.setMaxOutput(DriveConstants.defaultSpeed)));
+        .whileTrue(new InstantCommand(() -> driveSubsystem.setMaxOutput(precisionSpeed)))
+        .whileFalse(new InstantCommand(() -> driveSubsystem.setMaxOutput(defaultSpeed)));
   
   }
 

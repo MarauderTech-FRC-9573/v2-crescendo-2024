@@ -68,8 +68,9 @@ public final class Constants {
     public static double kWheelDiameterMeters = 0.15;
     
     // default speed of the robot
+    public static double precisionSpeed = 0.1;
     public static double defaultSpeed = 0.8;
-    public static double maxSpeed;
+    public static double turboSpeed = 1.0;
     
     
     public static final LinearSystem<N2, N2, N2> kDrivetrainPlant = LinearSystemId.identifyDrivetrainSystem(kvVoltSecondsPerMeter, kaVoltSecondsSquaredPerMeter,kvVoltSecondsPerRadian, kaVoltSecondsSquaredPerRadian);    
