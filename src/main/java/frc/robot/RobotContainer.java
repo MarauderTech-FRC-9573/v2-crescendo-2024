@@ -6,8 +6,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.LaunchAmp;
 import frc.robot.commands.LaunchSpeaker;
-import frc.robot.commands.PrepareLaunchAmp;
-import frc.robot.commands.PrepareLaunchSpeaker;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
@@ -40,8 +38,8 @@ public class RobotContainer {
   }
   
   private void configureButtonBindings() {
-    operatorController.a().whileTrue(new PrepareLaunchSpeaker(shooterSubsystem).withTimeout(ShooterConstants.kLauncherDelay).andThen(new LaunchSpeaker(shooterSubsystem)).handleInterrupt(() -> shooterSubsystem.stop()));
-    operatorController.b().whileTrue(new PrepareLaunchAmp(shooterSubsystem).withTimeout(0.5).andThen(new LaunchAmp(shooterSubsystem)).handleInterrupt(() -> shooterSubsystem.stop()));
+    operatorController.a().whileTrue(new LaunchSpeaker(shooterSubsystem));
+    operatorController.b().whileTrue(new LaunchAmp(shooterSubsystem));
 
     // Set up a binding to run the intake command while the operator is pressing and holding the x button
     operatorController.x().whileTrue(shooterSubsystem.getIntakeCommand());
