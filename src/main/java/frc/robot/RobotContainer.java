@@ -48,6 +48,7 @@ public class RobotContainer {
 
     operatorController.leftBumper()
         .whileTrue(new InstantCommand(() -> driveSubsystem.setMaxOutput(turboSpeed)))
+        .andThen((new InstantCommand(() -> drivesubsystem.setDefaultCommand(new RunCommand(() -> driveSubsystem.driveArcade(-operatorController.getLeftY(), -operatorController.getRightX()*2), driveSubsystem)))))
         .whileFalse(new InstantCommand(() -> driveSubsystem.setMaxOutput(defaultSpeed)));
 
     operatorController.rightBumper()
