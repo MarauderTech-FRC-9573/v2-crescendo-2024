@@ -31,10 +31,7 @@ public class DriveSubsystem extends SubsystemBase {
     
     // Gyroscope
     private final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
-        
-    // ODOMETRY 
-    private final DifferentialDriveOdometry m_odometry;
-    
+            
     Pose2d m_pose;
         
     /*Constructor. This method is called when an instance of the class is created. This should generally be used to set up
@@ -66,7 +63,6 @@ public class DriveSubsystem extends SubsystemBase {
         // the rears set to follow the fronts
         m_drivetrain = new DifferentialDrive(leftFront, rightFront);
         
-        m_odometry = new DifferentialDriveOdometry(m_gyro.getRotation2d(), driveLeftEncoder.getDistance(), driveRightEncoder.getDistance(), new Pose2d(5.0, 13.5, new Rotation2d()));
         
         setMaxOutput(DriveConstants.maxSpeed);
     }
@@ -88,10 +84,10 @@ public class DriveSubsystem extends SubsystemBase {
         var gyroAngle = m_gyro.getRotation2d();
         
         // Update the pose
-        m_pose = m_odometry.update(gyroAngle,
-        driveLeftEncoder.getDistance(),
-        driveRightEncoder.getDistance());
-        SmartDashboard.putNumber("Gyro ", this.getHeading());
+        // m_pose = m_odometry.update(gyroAngle,
+        // driveLeftEncoder.getDistance(),
+        // driveRightEncoder.getDistance());
+        // SmartDashboard.putNumber("Gyro ", this.getHeading());
 
     }
     
