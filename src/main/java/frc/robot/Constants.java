@@ -203,7 +203,7 @@ public final class Constants {
       public static final double kIntakeLauncherSpeed = 0.8; //Speed of bottom motor
       public static final double kIntakeFeederSpeed = 0.2; //Speed of top motor
       
-      public static final double kLauncherDelay = 1;
+      public static final long kLauncherDelay = 1;
       
       
     }

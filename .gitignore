@@ -181,3 +181,4 @@ ctre_sim/
 .class
 .bin
 *.class
+.gradle/8.5/checksums/checksums.lock

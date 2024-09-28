@@ -27,31 +27,13 @@ public class DriveSubsystem extends SubsystemBase {
     /*Class member variables. These variables represent things the class needs to keep track of and use between
     different method calls. */
     DifferentialDrive m_drivetrain;
-    
-    // ENCODERS
-    private final Encoder driveLeftEncoder = new Encoder(DriveConstants.kLeftLeadEncoderPorts[0], DriveConstants.kLeftLeadEncoderPorts[1], DriveConstants.kLeftEncoderReversed);
-    private final Encoder driveRightEncoder = new Encoder(DriveConstants.kRightLeadEncoderPorts[0], DriveConstants.kRightLeadEncoderPorts[1], DriveConstants.kRightEncoderReversed);
-    
-    // PID
-    private double targetLeftVelocity = 3; // Target velocity in meters per second
-    private double targetRightVelocity = 3; // Target velocity in meters per second    
+        
     
     // Gyroscope
     private final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
-    
-    private final PIDController leftPIDController = new PIDController(DriveConstants.kP, DriveConstants.kI, DriveConstants.kD);
-    private final PIDController rightPIDController = new PIDController(DriveConstants.kP, DriveConstants.kI, DriveConstants.kD);
-    
-    // ODOMETRY 
-    private final DifferentialDriveOdometry m_odometry;
-    
+            
     Pose2d m_pose;
-    
-    
-    // Gains must be determined, disabled because that's what causes it to spin weirdly
-    // private final SimpleMotorFeedforward m_feedforward = new SimpleMotorFeedforward(1, 3);
-    
-    
+        
     /*Constructor. This method is called when an instance of the class is created. This should generally be used to set up
     * member variables and perform any configuration or set up necessary on hardware.
     */
@@ -81,7 +63,6 @@ public class DriveSubsystem extends SubsystemBase {
         // the rears set to follow the fronts
         m_drivetrain = new DifferentialDrive(leftFront, rightFront);
         
-        m_odometry = new DifferentialDriveOdometry(m_gyro.getRotation2d(), driveLeftEncoder.getDistance(), driveRightEncoder.getDistance(), new Pose2d(5.0, 13.5, new Rotation2d()));
         
         m_drivetrain.setMaxOutput(DriveConstants.defaultSpeed);
     }
@@ -91,15 +72,7 @@ public class DriveSubsystem extends SubsystemBase {
     /*Method to control the drivetrain using arcade drive. Arcade drive takes a speed in the X (forward/back) direction
     * and a rotation about the Z (turning the robot about it's center) and uses these to control the drivetrain motors */
     public void driveArcade(double speed, double rotation) {
-        
-        double leftOutput = leftPIDController.calculate(driveLeftEncoder.getRate(), targetLeftVelocity);
-        double rightOutput = rightPIDController.calculate(driveRightEncoder.getRate(), targetRightVelocity);
-        
-        // Ensure the motor input is within the allowable range
-        leftOutput = MathUtil.clamp(leftOutput, -1.0, 1.0);
-        rightOutput = MathUtil.clamp(rightOutput, -1.0, 1.0);
-
-        m_drivetrain.arcadeDrive(speed + leftOutput, -rotation + rightOutput); 
+        m_drivetrain.arcadeDrive(speed , -rotation); 
     }
     
     
@@ -111,10 +84,10 @@ public class DriveSubsystem extends SubsystemBase {
         var gyroAngle = m_gyro.getRotation2d();
         
         // Update the pose
-        m_pose = m_odometry.update(gyroAngle,
-        driveLeftEncoder.getDistance(),
-        driveRightEncoder.getDistance());
-        SmartDashboard.putNumber("Gyro ", this.getHeading());
+        // m_pose = m_odometry.update(gyroAngle,
+        // driveLeftEncoder.getDistance(),
+        // driveRightEncoder.getDistance());
+        // SmartDashboard.putNumber("Gyro ", this.getHeading());
 
     }
     
