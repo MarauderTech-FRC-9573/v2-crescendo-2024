@@ -83,7 +83,7 @@ public class DriveSubsystem extends SubsystemBase {
         
         m_odometry = new DifferentialDriveOdometry(m_gyro.getRotation2d(), driveLeftEncoder.getDistance(), driveRightEncoder.getDistance(), new Pose2d(5.0, 13.5, new Rotation2d()));
         
-        setMaxOutput(DriveConstants.maxSpeed);
+        m_drivetrain.setMaxOutput(DriveConstants.defaultSpeed);
     }
     
     boolean isStopped = false;

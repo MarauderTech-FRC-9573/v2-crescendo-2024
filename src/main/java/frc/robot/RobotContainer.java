@@ -12,6 +12,10 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.Constants.DriveConstants;
+import static frc.robot.Constants.DriveConstants.precisionSpeed;
+import static frc.robot.Constants.DriveConstants.turboSpeed;
+import static frc.robot.Constants.DriveConstants.defaultSpeed;
+
 import frc.robot.Constants.ShooterConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
