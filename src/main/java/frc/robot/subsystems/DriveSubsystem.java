@@ -64,7 +64,7 @@ public class DriveSubsystem extends SubsystemBase {
         m_drivetrain = new DifferentialDrive(leftFront, rightFront);
         
         
-        setMaxOutput(DriveConstants.maxSpeed);
+        m_drivetrain.setMaxOutput(DriveConstants.defaultSpeed);
     }
     
     boolean isStopped = false;

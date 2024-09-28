@@ -10,6 +10,10 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.Constants.DriveConstants;
+import static frc.robot.Constants.DriveConstants.precisionSpeed;
+import static frc.robot.Constants.DriveConstants.turboSpeed;
+import static frc.robot.Constants.DriveConstants.defaultSpeed;
+
 import frc.robot.Constants.ShooterConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -45,12 +49,12 @@ public class RobotContainer {
     operatorController.x().whileTrue(shooterSubsystem.getIntakeCommand());
 
     operatorController.leftBumper()
-        .whileTrue(new InstantCommand(() -> driveSubsystem.setMaxOutput(1.0)))
-        .whileFalse(new InstantCommand(() -> driveSubsystem.setMaxOutput(DriveConstants.defaultSpeed)));
+        .whileTrue(new InstantCommand(() -> driveSubsystem.setMaxOutput(turboSpeed)))
+        .whileFalse(new InstantCommand(() -> driveSubsystem.setMaxOutput(defaultSpeed)));
 
     operatorController.rightBumper()
-        .whileTrue(new InstantCommand(() -> driveSubsystem.setMaxOutput(0.1)))
-        .whileFalse(new InstantCommand(() -> driveSubsystem.setMaxOutput(DriveConstants.defaultSpeed)));
+        .whileTrue(new InstantCommand(() -> driveSubsystem.setMaxOutput(precisionSpeed)))
+        .whileFalse(new InstantCommand(() -> driveSubsystem.setMaxOutput(defaultSpeed)));
   
   }
 
