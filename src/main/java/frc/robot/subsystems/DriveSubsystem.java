@@ -27,24 +27,35 @@ public class DriveSubsystem extends SubsystemBase {
     /*Class member variables. These variables represent things the class needs to keep track of and use between
     different method calls. */
     DifferentialDrive m_drivetrain;
-        
+    
+    public static final double kMaxSpeed = 3.0; // meters per second
+    public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
+    private static final double kTrackWidth = 0.381 * 2; // meters UPDATE THIS VALUE
+    private static final double kWheelRadius = 0.0507; // meters
+    private static final int kEncoderResolution = 4096; // encoder ticks per revolution UPDATE THIS VALUE
+    
+    private final CANSparkMax leftFront = new CANSparkMax(kLeftFrontID, CANSparkLowLevel.MotorType.kBrushed);
+    private final CANSparkMax leftRear = new CANSparkMax(kLeftRearID, CANSparkLowLevel.MotorType.kBrushed);
+    private final CANSparkMax rightFront = new CANSparkMax(kRightFrontID, CANSparkLowLevel.MotorType.kBrushed);
+    private final CANSparkMax rightRear = new CANSparkMax(kRightRearID, CANSparkLowLevel.MotorType.kBrushed);
+    
+    private final Encoder driveLeftEncoder = new Encoder(kLeftEncoderPorts[0], kLeftEncoderPorts[1]);
+    private final Encoder driveRightEncoder = new Encoder(kRightEncoderPorts[0], kRightEncoderPorts[1]);
+    
+    private final PIDController m_leftPIDController = new PIDController(1, 0, 0);
+    private final PIDController m_rightPIDController = new PIDController(1, 0, 0);
+    
+    private final DifferentialDriveKinematics m_kinematics = new DifferentialDriveKinematics(kTrackWidth);
     
     // Gyroscope
     private final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
-            
+    
     Pose2d m_pose;
-        
+    
     /*Constructor. This method is called when an instance of the class is created. This should generally be used to set up
     * member variables and perform any configuration or set up necessary on hardware.
     */
     public DriveSubsystem() {
-        CANSparkMax leftFront = new CANSparkMax(kLeftFrontID, CANSparkLowLevel.MotorType.kBrushed);
-        CANSparkMax leftRear = new CANSparkMax(kLeftRearID, CANSparkLowLevel.MotorType.kBrushed);
-        CANSparkMax rightFront = new CANSparkMax(kRightFrontID, CANSparkLowLevel.MotorType.kBrushed);
-        CANSparkMax rightRear = new CANSparkMax(kRightRearID, CANSparkLowLevel.MotorType.kBrushed);
-        
-        /*Sets current limits for the drivetrain motors. This helps reduce the likelihood of wheel spin, reduces motor heating
-        *at stall (Drivetrain pushing against something) and helps maintain battery voltage under heavy demand */
         leftFront.setSmartCurrentLimit(kCurrentLimit);
         leftRear.setSmartCurrentLimit(kCurrentLimit);
         rightFront.setSmartCurrentLimit(kCurrentLimit);
@@ -53,7 +64,6 @@ public class DriveSubsystem extends SubsystemBase {
         // Set the rear motors to follow the front motors.
         leftRear.follow(leftFront);
         rightRear.follow(rightFront);
-        
         
         // Invert the left side so both side drive forward with positive motor outputs
         leftFront.setInverted(false);
@@ -72,8 +82,18 @@ public class DriveSubsystem extends SubsystemBase {
     /*Method to control the drivetrain using arcade drive. Arcade drive takes a speed in the X (forward/back) direction
     * and a rotation about the Z (turning the robot about it's center) and uses these to control the drivetrain motors */
     public void driveArcade(double speed, double rotation) {
-        m_drivetrain.arcadeDrive(speed , -rotation); 
+        m_drivetrain.arcadeDrive(speed, rotation);
     }
+
+    /** 
+     * Drives the robot with the given linear velocity and angular velocity
+     */
+    public void drive(double speed, double rotation) {
+        var wheelSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(xSpeed, 0.0, rotation));
+        setSpeeds(wheelSpeeds);
+    }
+
+    
     
     
     
@@ -88,7 +108,18 @@ public class DriveSubsystem extends SubsystemBase {
         // driveLeftEncoder.getDistance(),
         // driveRightEncoder.getDistance());
         // SmartDashboard.putNumber("Gyro ", this.getHeading());
-
+        
+    }
+    
+    public void setSpeeds(DifferentialDriveWheelSpeeds speeds) {
+        final double leftFeedforward = m_feedforward.calculate(MetersPerSecond.of(speeds.leftMetersPerSecond)).in(Volts);
+        final double rightFeedforward = m_feedforward.calculate(MetersPerSecond.of(speeds.rightMetersPerSecond)).in(Volts);
+        
+        final double leftOutput = m_leftPIDController.calculate(driveLeftEncoder.getRate(), speeds.leftMetersPerSecond);
+        final double rightOutput = m_rightPIDController.calculate(driveRightEncoder.getRate(), speeds.rightMetersPerSecond);
+        
+        leftFront.set(leftOutput + leftFeedforward);
+        rightFront.set(rightOutput + rightFeedforward);
     }
     
     public double getHeading() {
@@ -111,6 +142,12 @@ public class DriveSubsystem extends SubsystemBase {
         
         return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
         
+    }
+
+    public void updateOdometry() {
+        m_odometry.update(
+            m_gyro.getRotation2d(), m_leftEncoder.getDistance(), m_rightEncoder.getDistance()
+        );
     }
     
 }
