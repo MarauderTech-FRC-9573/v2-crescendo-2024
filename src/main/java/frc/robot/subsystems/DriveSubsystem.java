@@ -1,20 +1,27 @@
 package frc.robot.subsystems;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
+import static frc.robot.Constants.DriveConstants.*;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.Volts;
 // Simulation libraries
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import static frc.robot.Constants.DriveConstants.*;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel;
+
 
 /* This class declares the subsystem for the robot drivetrain if controllers are connected via CAN. Make sure to go to
 * RobotContainer and uncomment the line declaring this subsystem and comment the line for PWMDrivetrain.
@@ -39,14 +46,19 @@ public class DriveSubsystem extends SubsystemBase {
     private final CANSparkMax rightFront = new CANSparkMax(kRightFrontID, CANSparkLowLevel.MotorType.kBrushed);
     private final CANSparkMax rightRear = new CANSparkMax(kRightRearID, CANSparkLowLevel.MotorType.kBrushed);
     
-    private final Encoder driveLeftEncoder = new Encoder(kLeftEncoderPorts[0], kLeftEncoderPorts[1]);
-    private final Encoder driveRightEncoder = new Encoder(kRightEncoderPorts[0], kRightEncoderPorts[1]);
+    private final Encoder driveLeftEncoder = new Encoder(DriveConstants.kLeftLeadEncoderPorts[0], kLeftLeadEncoderPorts[1]);
+    private final Encoder driveRightEncoder = new Encoder(DriveConstants.kRightLeadEncoderPorts[0], kRightLeadEncoderPorts[1]);
     
     private final PIDController m_leftPIDController = new PIDController(1, 0, 0);
     private final PIDController m_rightPIDController = new PIDController(1, 0, 0);
     
     private final DifferentialDriveKinematics m_kinematics = new DifferentialDriveKinematics(kTrackWidth);
     
+    private final DifferentialDriveOdometry m_odometry;
+
+    // Gains are for example purposes only - must be determined for your own robot!
+    private final SimpleMotorFeedforward m_feedforward = new SimpleMotorFeedforward(1, 3);
+
     // Gyroscope
     private final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
     
@@ -73,6 +85,9 @@ public class DriveSubsystem extends SubsystemBase {
         // the rears set to follow the fronts
         m_drivetrain = new DifferentialDrive(leftFront, rightFront);
         
+        m_odometry =
+        new DifferentialDriveOdometry(
+            m_gyro.getRotation2d(), driveLeftEncoder.getDistance(), driveRightEncoder.getDistance());
         
         m_drivetrain.setMaxOutput(DriveConstants.defaultSpeed);
     }
@@ -89,12 +104,9 @@ public class DriveSubsystem extends SubsystemBase {
      * Drives the robot with the given linear velocity and angular velocity
      */
     public void drive(double speed, double rotation) {
-        var wheelSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(xSpeed, 0.0, rotation));
+        var wheelSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(speed, 0.0, rotation));
         setSpeeds(wheelSpeeds);
     }
-
-    
-    
     
     
     @Override
@@ -112,8 +124,8 @@ public class DriveSubsystem extends SubsystemBase {
     }
     
     public void setSpeeds(DifferentialDriveWheelSpeeds speeds) {
-        final double leftFeedforward = m_feedforward.calculate(MetersPerSecond.of(speeds.leftMetersPerSecond)).in(Volts);
-        final double rightFeedforward = m_feedforward.calculate(MetersPerSecond.of(speeds.rightMetersPerSecond)).in(Volts);
+        final double leftFeedforward = m_feedforward.calculate(speeds.leftMetersPerSecond); // Fix: Pass the double value instead of the object
+        final double rightFeedforward = m_feedforward.calculate(speeds.rightMetersPerSecond); // Fix: Pass the double value instead of the object
         
         final double leftOutput = m_leftPIDController.calculate(driveLeftEncoder.getRate(), speeds.leftMetersPerSecond);
         final double rightOutput = m_rightPIDController.calculate(driveRightEncoder.getRate(), speeds.rightMetersPerSecond);
@@ -146,7 +158,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     public void updateOdometry() {
         m_odometry.update(
-            m_gyro.getRotation2d(), m_leftEncoder.getDistance(), m_rightEncoder.getDistance()
+            m_gyro.getRotation2d(), driveLeftEncoder.getDistance(), driveRightEncoder.getDistance()
         );
     }
     
