@@ -124,8 +124,8 @@ public class DriveSubsystem extends SubsystemBase {
     }
     
     public void setSpeeds(DifferentialDriveWheelSpeeds speeds) {
-        final double leftFeedforward = m_feedforward.calculate(speeds.leftMetersPerSecond); // Fix: Pass the double value instead of the object
-        final double rightFeedforward = m_feedforward.calculate(speeds.rightMetersPerSecond); // Fix: Pass the double value instead of the object
+        final double leftFeedforward = m_feedforward.calculate(speeds.leftMetersPerSecond);
+        final double rightFeedforward = m_feedforward.calculate(speeds.rightMetersPerSecond); 
         
         final double leftOutput = m_leftPIDController.calculate(driveLeftEncoder.getRate(), speeds.leftMetersPerSecond);
         final double rightOutput = m_rightPIDController.calculate(driveRightEncoder.getRate(), speeds.rightMetersPerSecond);
