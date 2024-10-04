@@ -19,8 +19,8 @@ public final class Constants {
     // PWM ports/CAN IDs for motor controllers
     public static final int kLeftRearID = 5;
     public static final int kLeftFrontID = 4;
-    public static final int kRightRearID = 3;
-    public static final int kRightFrontID = 2;
+    public static final int kRightRearID = 2;
+    public static final int kRightFrontID = 3;
     
     // Current limit for drivetrain motors
     public static final int kCurrentLimit = 60;
@@ -113,6 +113,7 @@ public final class Constants {
       public static final double ejectingSpeed = -0.50;
       public static final double stoppingSpeed = 0.00;
 
+      public static final int IntakePort = 6;
       
     }
     
@@ -182,8 +183,8 @@ public final class Constants {
     public static final class ShooterConstants {
       
       // PWM ports/CAN IDs for motor controllers
-      public static final int LauncherPort= 6; //Bottom motor away from mouth
-      public static final int FeedPort = 7; //Top motor near the mouth
+      public static final int LauncherPort = 7; //Bottom motor away from mouth
+      public static final int FeedPort = 8; //Top motor near the mouth
       
       // Current limit for launcher and feed wheels
       public static final int kLauncherCurrentLimit = 80;
@@ -195,6 +196,7 @@ public final class Constants {
       public static final double kAmpSpeedTop = -0.3; //Speed of shooting into the amp, running the top wheels
       public static final double kAmpSpeedBottom = -0.7; //Speed of shooting into the amp, running the bottom wheels
       
+      public static final double kIntakeEject = -0.5;
       
     }
     

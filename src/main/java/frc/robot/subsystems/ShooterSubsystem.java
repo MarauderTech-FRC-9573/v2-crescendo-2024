@@ -12,8 +12,8 @@ public class ShooterSubsystem extends SubsystemBase {
   public final CANSparkMax topShooterMotor;
   
   public ShooterSubsystem() { 
-    bottomShooterMotor = new CANSparkMax(0, MotorType.kBrushless);
-    topShooterMotor = new CANSparkMax(1, MotorType.kBrushless);
+    bottomShooterMotor = new CANSparkMax(7, MotorType.kBrushless);
+    topShooterMotor = new CANSparkMax(8, MotorType.kBrushless);
   }
   
   public void stop() {
