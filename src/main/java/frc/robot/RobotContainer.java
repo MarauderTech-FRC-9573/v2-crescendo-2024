@@ -3,9 +3,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.IntakeConstants;
+
 import static frc.robot.Constants.DriveConstants.precisionSpeed;
 import static frc.robot.Constants.DriveConstants.turboSpeed;
 import static frc.robot.Constants.DriveConstants.defaultSpeed;
@@ -19,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 public class RobotContainer {
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final VisionSubsystem  visionSubsystem = new VisionSubsystem();
   private final CommandXboxController operatorController = new CommandXboxController(DriveConstants.operatorControllerPort);
 
@@ -39,6 +43,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     operatorController.a().whileTrue(shooterSubsystem.shootSpeaker());
     operatorController.b().whileTrue(shooterSubsystem.shootAmp());
+    operatorController.x().whileTrue(intakeSubsystem.intake());
+    operatorController.y().whileTrue(intakeSubsystem.eject());
 
     // Set up a binding to run the intake command while the operator is pressing and holding the x button
 
