@@ -16,7 +16,7 @@ public class Eject extends Command {
     private CANSparkMax shootTop;
     private CANSparkMax shootBottom;
 
-    public Eject(IntakeSubsystem intakeSubsystem) {
+    public Eject(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
         this.intakeSubsystem = intakeSubsystem;
         this.shooterSubsystem = shooterSubsystem;
         motor = intakeSubsystem.intakeMotor;

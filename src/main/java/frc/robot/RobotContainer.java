@@ -45,8 +45,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     operatorController.a().whileTrue(new LaunchSpeaker(shooterSubsystem));
     operatorController.b().whileTrue(new LaunchAmp(shooterSubsystem));
-    operatorController.x().whileTrue(intakeSubsystem.intake());
-    operatorController.y().whileTrue(intakeSubsystem.eject());
+    operatorController.x().whileTrue(new Intake(intakeSubsystem));
+    operatorController.y().whileTrue(new Eject(intakeSubsystem, shooterSubsystem));
 
     // Set up a binding to run the intake command while the operator is pressing and holding the x button
 
