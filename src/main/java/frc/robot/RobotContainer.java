@@ -8,6 +8,8 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.commands.LaunchAmp;
+import frc.robot.commands.LaunchSpeaker;
 
 import static frc.robot.Constants.DriveConstants.precisionSpeed;
 import static frc.robot.Constants.DriveConstants.turboSpeed;
@@ -41,8 +43,8 @@ public class RobotContainer {
   }
   
   private void configureButtonBindings() {
-    operatorController.a().whileTrue(shooterSubsystem.shootSpeaker());
-    operatorController.b().whileTrue(shooterSubsystem.shootAmp());
+    operatorController.a().whileTrue(new LaunchSpeaker(shooterSubsystem));
+    operatorController.b().whileTrue(new LaunchAmp(shooterSubsystem));
     operatorController.x().whileTrue(intakeSubsystem.intake());
     operatorController.y().whileTrue(intakeSubsystem.eject());
 
