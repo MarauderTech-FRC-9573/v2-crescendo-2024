@@ -112,7 +112,8 @@ public final class Constants {
       public static final double intakingSpeed = -0.70;
       public static final double ejectingSpeed = 0.70;
       public static final double stoppingSpeed = 0.00;
-
+      public static final double launchSpeed = 0.2;
+      
       public static final int IntakePort = 6;
       
     }

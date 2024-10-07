@@ -24,6 +24,7 @@ public class LaunchAmp extends Command {
 
     @Override 
     public void initialize() {
+        
         bottom.set(kAmpSpeedBottom);
         top.set(kAmpSpeedTop);
 
