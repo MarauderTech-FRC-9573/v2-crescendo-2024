@@ -71,6 +71,7 @@ public final class Constants {
     public static double precisionSpeed = 0.1;
     public static double defaultSpeed = 0.8;
     public static double turboSpeed = 1.0;
+    public static int driverControllerPort;
     
     
     public static final LinearSystem<N2, N2, N2> kDrivetrainPlant = LinearSystemId.identifyDrivetrainSystem(kvVoltSecondsPerMeter, kaVoltSecondsSquaredPerMeter,kvVoltSecondsPerRadian, kaVoltSecondsSquaredPerRadian);    

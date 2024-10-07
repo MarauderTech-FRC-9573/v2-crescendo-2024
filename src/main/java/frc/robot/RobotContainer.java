@@ -12,6 +12,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.commands.LaunchAmp;
 import frc.robot.commands.LaunchSpeaker;
+import frc.robot.commands.NoteInPlace;
 
 import static frc.robot.Constants.DriveConstants.precisionSpeed;
 import static frc.robot.Constants.DriveConstants.turboSpeed;
@@ -29,6 +30,7 @@ public class RobotContainer {
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final VisionSubsystem  visionSubsystem = new VisionSubsystem();
   private final CommandXboxController operatorController = new CommandXboxController(DriveConstants.operatorControllerPort);
+  private final CommandXboxController driverController = new CommandXboxController(DriveConstants.driverControllerPort);
 
   //private final PowerDistribution pdh = new PowerDistribution(1, ModuleType.kRev);
 
@@ -40,6 +42,7 @@ public class RobotContainer {
     //pdh.setSwitchableChannel(true);
     configureButtonBindings();
     driveSubsystem.setDefaultCommand(new RunCommand(() -> driveSubsystem.driveArcade(-operatorController.getLeftY(), -operatorController.getRightX()), driveSubsystem));
+    shooterSubsystem.setDefaultCommand(new NoteInPlace(shooterSubsystem, operatorController));
     SmartDashboard.putData("Autos: ", m_autoChooser);
 
   }
