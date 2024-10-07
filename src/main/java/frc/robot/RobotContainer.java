@@ -1,20 +1,23 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.LaunchAmp;
-import frc.robot.commands.LaunchSpeaker;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.commands.Intake;
+import frc.robot.commands.IntakeBack;
+import frc.robot.commands.Eject;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.IntakeConstants;
+import frc.robot.commands.LaunchAmp;
+import frc.robot.commands.LaunchSpeaker;
+
 import static frc.robot.Constants.DriveConstants.precisionSpeed;
 import static frc.robot.Constants.DriveConstants.turboSpeed;
 import static frc.robot.Constants.DriveConstants.defaultSpeed;
 
-import frc.robot.Constants.ShooterConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -24,6 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 public class RobotContainer {
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final VisionSubsystem  visionSubsystem = new VisionSubsystem();
   private final CommandXboxController operatorController = new CommandXboxController(DriveConstants.operatorControllerPort);
 
@@ -42,11 +46,12 @@ public class RobotContainer {
   }
   
   private void configureButtonBindings() {
-    operatorController.a().whileTrue(new LaunchSpeaker(shooterSubsystem));
-    operatorController.b().whileTrue(new LaunchAmp(shooterSubsystem));
+    operatorController.a().whileTrue(new IntakeBack(intakeSubsystem).andThen(new LaunchSpeaker(shooterSubsystem)));
+    operatorController.b().whileTrue(new IntakeBack(intakeSubsystem).andThen(new LaunchAmp(shooterSubsystem)));
+    operatorController.x().whileTrue(new Intake(intakeSubsystem));
+    operatorController.y().whileTrue(new Eject(intakeSubsystem, shooterSubsystem));
 
     // Set up a binding to run the intake command while the operator is pressing and holding the x button
-    operatorController.x().whileTrue(shooterSubsystem.getIntakeCommand());
 
     operatorController.leftBumper()
         .whileTrue(new InstantCommand(() -> driveSubsystem.setMaxOutput(turboSpeed)))
