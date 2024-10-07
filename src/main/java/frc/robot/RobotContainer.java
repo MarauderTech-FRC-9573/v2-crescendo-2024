@@ -41,7 +41,7 @@ public class RobotContainer {
     initalizeAutoChooser();
     //pdh.setSwitchableChannel(true);
     configureButtonBindings();
-    driveSubsystem.setDefaultCommand(new RunCommand(() -> driveSubsystem.driveArcade(-operatorController.getLeftY(), -operatorController.getRightX()), driveSubsystem));
+    driveSubsystem.setDefaultCommand(new RunCommand(() -> driveSubsystem.driveArcade(-driverController.getLeftY(), -driverController.getRightX()), driveSubsystem));
     shooterSubsystem.setDefaultCommand(new NoteInPlace(shooterSubsystem, operatorController));
     SmartDashboard.putData("Autos: ", m_autoChooser);
 
@@ -55,11 +55,11 @@ public class RobotContainer {
 
     // Set up a binding to run the intake command while the operator is pressing and holding the x button
 
-    operatorController.leftBumper()
+    driverController.leftBumper()
         .whileTrue(new InstantCommand(() -> driveSubsystem.setMaxOutput(turboSpeed)))
         .whileFalse(new InstantCommand(() -> driveSubsystem.setMaxOutput(defaultSpeed)));
 
-    operatorController.rightBumper()
+    driverController.rightBumper()
         .whileTrue(new InstantCommand(() -> driveSubsystem.setMaxOutput(precisionSpeed)))
         .whileFalse(new InstantCommand(() -> driveSubsystem.setMaxOutput(defaultSpeed)));
   
