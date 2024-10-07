@@ -109,8 +109,8 @@ public final class Constants {
     // Intake Constants
     public static final class IntakeConstants {
       
-      public static final double intakingSpeed = 0.50;
-      public static final double ejectingSpeed = -0.50;
+      public static final double intakingSpeed = -0.70;
+      public static final double ejectingSpeed = 0.70;
       public static final double stoppingSpeed = 0.00;
 
       public static final int IntakePort = 6;
@@ -192,9 +192,9 @@ public final class Constants {
       
       // Speeds for wheels when intaking and launching. Intake speeds are negative to run the wheels
       // in reverse
-      public static final double kSpeakerSpeed = -1; //Speed of shooting into speaker. both top and bottom flywheels run at the same speed 
-      public static final double kAmpSpeedTop = -0.3; //Speed of shooting into the amp, running the top wheels
-      public static final double kAmpSpeedBottom = -0.7; //Speed of shooting into the amp, running the bottom wheels
+      public static final double kSpeakerSpeed = 1; //Speed of shooting into speaker. both top and bottom flywheels run at the same speed 
+      public static final double kAmpSpeedTop = 0.3; //Speed of shooting into the amp, running the top wheels
+      public static final double kAmpSpeedBottom = 0.7; //Speed of shooting into the amp, running the bottom wheels
       
       public static final double kIntakeEject = -0.5;
       
