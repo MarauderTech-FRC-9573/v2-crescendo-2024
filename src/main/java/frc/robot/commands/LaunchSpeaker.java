@@ -13,17 +13,21 @@ public class LaunchSpeaker extends Command {
     private ShooterSubsystem shooterSubsystem;
     private CANSparkMax bottom;
     private CANSparkMax top; 
+    private IntakeSubsystem intakeSubsystem;
+    private CANSparkMax intake;
     
-    public LaunchSpeaker(ShooterSubsystem shooterSubsystem) {
+    public LaunchSpeaker(ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
         this.shooterSubsystem = shooterSubsystem;
         bottom = shooterSubsystem.bottomShooterMotor;
         top = shooterSubsystem.topShooterMotor;
+        intake = intakeSubsystem.intakeMotor;
     }
 
     @Override 
     public void initialize() {
         bottom.set(kSpeakerSpeed);
         top.set(kSpeakerSpeed);
+        intake.set(intakingSpeed);
 
     }
 
@@ -34,6 +38,7 @@ public class LaunchSpeaker extends Command {
     @Override
     public void end(boolean isInterrupted) {
         shooterSubsystem.stop();
+        intakeSubsystem.stop();
     }
 
 }
