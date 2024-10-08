@@ -19,30 +19,18 @@ public final class Constants {
     // PWM ports/CAN IDs for motor controllers
     public static final int kLeftRearID = 5;
     public static final int kLeftFrontID = 4;
-    public static final int kRightRearID = 3;
-    public static final int kRightFrontID = 2;
+    public static final int kRightRearID = 2;
+    public static final int kRightFrontID = 3;
     
     // Current limit for drivetrain motors
     public static final int kCurrentLimit = 60;
     
-    public static final int joystickPort = 0;    
     
     public static int operatorControllerPort = 1;
-    public static int driveControllerPort = 0;
-    
-    // values are related to PID and need to be tuned:
-    public static final double kP = 0;
-    public static final double kI = 0;
-    public static final double kD = 0;
-    public static final double kDriveTick2Feet = 1.0 / 128 * 6 * Math.PI / 12;
     
     //PID values for gyro taken from wpilib gyrocommand example
     
     public static final boolean kGyroReversed = false;
-    
-    public static final double kStabilizationP = 1;
-    public static final double kStabilizationI = 0.5;
-    public static final double kStabilizationD = 0;
     
     public static final double kTurnP = 0;
     public static final double kTurnI = 0;
@@ -63,9 +51,6 @@ public final class Constants {
     public static final double kvVoltSecondsPerRadian = 1.5;
     public static final double kaVoltSecondsSquaredPerRadian = 0.3;
     
-    public static final DCMotor kDriveGearbox = DCMotor.getCIM(2);
-    public static final double kDriveGearing = 8;
-    public static double kTrackwidthMeters = 0.69; 
     public static double kWheelDiameterMeters = 0.15;
     
     // default speed of the robot
@@ -73,21 +58,6 @@ public final class Constants {
     public static double defaultSpeed = 0.8;
     public static double turboSpeed = 1.0;
     
-    
-    public static final LinearSystem<N2, N2, N2> kDrivetrainPlant = LinearSystemId.identifyDrivetrainSystem(kvVoltSecondsPerMeter, kaVoltSecondsSquaredPerMeter,kvVoltSecondsPerRadian, kaVoltSecondsSquaredPerRadian);    
-    
-    public static final int[] kLeftLeadEncoderPorts = new int[] {4, 5};
-    public static final int[] kRightLeadEncoderPorts = new int[] {6, 7};
-    public static final int[] kLeftFollowEncoderPorts = new int[] {8, 9};
-    public static final int[] kRightFollowEncoderPorts = new int[] {10, 11};
-    
-    public static final boolean kLeftEncoderReversed = false;
-    public static final boolean kRightEncoderReversed = true;
-    
-    public static final int kEncoderCPR = 1024;
-    public static final double kEncoderDistancePerPulse = (kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR; // Assumes the encoders are directly mounted on the wheel shafts
-    
-    public static final int kAngleSetpoint = 0;
     
     
   }
@@ -110,15 +80,10 @@ public final class Constants {
     // Intake Constants
     public static final class IntakeConstants {
       
-      // Motor Speeds
-      public static double IntakeMotorReleaseSpeed = -0.01;
-      public static double IntakeMotorReceiveSpeed = 0.01;
-      public static double ArmMotorMoveForwardSpeed = 0.01;
-      public static double ArmMotorMoveBackwardSpeed = -0.01;
-      
-      // Motor ID Ports
-      public static int IntakeMotorPort = 9;
-      public static int ArmMotorPort = 8;
+      public static final double intakingSpeed = -0.70;
+      public static final double ejectingSpeed = 0.70;
+      public static final double stoppingSpeed = 0.00;
+      public static final double launchSpeed = 0.2;
       
     }
     
@@ -186,26 +151,14 @@ public final class Constants {
     }
     
     public static final class ShooterConstants {
-      
-      // PWM ports/CAN IDs for motor controllers
-      public static final int LauncherPort= 6; //Bottom motor away from mouth
-      public static final int FeedPort = 7; //Top motor near the mouth
-      
-      // Current limit for launcher and feed wheels
-      public static final int kLauncherCurrentLimit = 80;
-      public static final int kFeedCurrentLimit = 80;
-      
+
       // Speeds for wheels when intaking and launching. Intake speeds are negative to run the wheels
       // in reverse
-      public static final double kSpeakerLauncherSpeed = -1; //Speed of bottom motor
-      public static final double kSpeakerLaunchFeederSpeed = -1; //Speed of top motor
-      public static final double kSpeakerAmpLauncherSpeed = -0.3; //Speed of bottom motor
-      public static final double kSpeakerAmpLaunchFeederSpeed = -0.4; //Speed of top motor
-      public static final double kIntakeLauncherSpeed = 0.8; //Speed of bottom motor
-      public static final double kIntakeFeederSpeed = 0.2; //Speed of top motor
+      public static final double kSpeakerSpeed = 0.8; //Speed of shooting into speaker. both top and bottom flywheels run at the same speed 
+      public static final double kAmpSpeedTop = 0.2; //Speed of shooting into the amp, running the top wheels
+      public static final double kAmpSpeedBottom = 0.3; //Speed of shooting into the amp, running the bottom wheels
       
-      public static final long kLauncherDelay = 1;
-      
+      public static final double kIntakeEject = -0.3;
       
     }
     
