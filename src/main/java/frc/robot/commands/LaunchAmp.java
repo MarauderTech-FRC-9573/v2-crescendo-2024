@@ -15,11 +15,14 @@ public class LaunchAmp extends Command {
     private ShooterSubsystem shooterSubsystem;
     private CANSparkMax bottom;
     private CANSparkMax top; 
+    private IntakeSubsystem intakeSubsystem;
+    private CANSparkMax intake;
     
-    public LaunchAmp(ShooterSubsystem shooterSubsystem) {
+    public LaunchAmp(ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
         this.shooterSubsystem = shooterSubsystem;
         bottom = shooterSubsystem.bottomShooterMotor;
         top = shooterSubsystem.topShooterMotor;
+        intake = intakeSubsystem.intakeMotor;
     }
 
     @Override 
@@ -27,6 +30,7 @@ public class LaunchAmp extends Command {
         
         bottom.set(kAmpSpeedBottom);
         top.set(kAmpSpeedTop);
+        intake.set(intakingSpeed);
 
     }
 
@@ -37,6 +41,7 @@ public class LaunchAmp extends Command {
     @Override
     public void end(boolean isInterrupted) {
         shooterSubsystem.stop();
+        intakeSubsystem.stop();
     }
 
 }

@@ -28,7 +28,7 @@ public class RobotContainer {
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-  private final VisionSubsystem  visionSubsystem = new VisionSubsystem();
+  //private final VisionSubsystem  visionSubsystem = new VisionSubsystem();
   private final CommandXboxController operatorController = new CommandXboxController(DriveConstants.operatorControllerPort);
 
   //private final PowerDistribution pdh = new PowerDistribution(1, ModuleType.kRev);
@@ -40,14 +40,14 @@ public class RobotContainer {
     initalizeAutoChooser();
     //pdh.setSwitchableChannel(true);
     configureButtonBindings();
-    driveSubsystem.setDefaultCommand(new RunCommand(() -> driveSubsystem.driveArcade(-operatorController.getLeftY(), -operatorController.getRightX()), driveSubsystem));
+    driveSubsystem.setDefaultCommand(new RunCommand(() -> driveSubsystem.driveArcade(operatorController.getLeftY(), operatorController.getRightX()), driveSubsystem));
     SmartDashboard.putData("Autos: ", m_autoChooser);
 
   }
   
   private void configureButtonBindings() {
-    operatorController.a().whileTrue(new IntakeBack(intakeSubsystem).andThen(new LaunchSpeaker(shooterSubsystem)));
-    operatorController.b().whileTrue(new IntakeBack(intakeSubsystem).andThen(new LaunchAmp(shooterSubsystem)));
+    operatorController.a().whileTrue(new IntakeBack(intakeSubsystem).withTimeout(0.5).andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)));
+    operatorController.b().whileTrue(new IntakeBack(intakeSubsystem).withTimeout(0.5).andThen(new LaunchAmp(shooterSubsystem, intakeSubsystem)));
     operatorController.x().whileTrue(new Intake(intakeSubsystem));
     operatorController.y().whileTrue(new Eject(intakeSubsystem, shooterSubsystem));
 
