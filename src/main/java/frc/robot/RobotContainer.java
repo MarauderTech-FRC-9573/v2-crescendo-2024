@@ -7,6 +7,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.Intake;
+import frc.robot.commands.IntakeBack;
 import frc.robot.commands.Eject;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.IntakeConstants;
@@ -28,7 +29,7 @@ public class RobotContainer {
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-  private final VisionSubsystem  visionSubsystem = new VisionSubsystem();
+  //private final VisionSubsystem  visionSubsystem = new VisionSubsystem();
   private final CommandXboxController operatorController = new CommandXboxController(DriveConstants.operatorControllerPort);
   private final CommandXboxController driverController = new CommandXboxController(DriveConstants.driverControllerPort);
 
@@ -41,15 +42,15 @@ public class RobotContainer {
     initalizeAutoChooser();
     //pdh.setSwitchableChannel(true);
     configureButtonBindings();
-    driveSubsystem.setDefaultCommand(new RunCommand(() -> driveSubsystem.driveArcade(-driverController.getLeftY(), -driverController.getRightX()), driveSubsystem));
+    driveSubsystem.setDefaultCommand(new RunCommand(() -> driveSubsystem.driveArcade(driverController.getLeftY(), driverController.getRightX()), driveSubsystem));
     shooterSubsystem.setDefaultCommand(new NoteInPlace(shooterSubsystem, operatorController));
     SmartDashboard.putData("Autos: ", m_autoChooser);
 
   }
   
   private void configureButtonBindings() {
-    operatorController.a().whileTrue(new LaunchSpeaker(shooterSubsystem));
-    operatorController.b().whileTrue(new LaunchAmp(shooterSubsystem));
+    operatorController.a().whileTrue(new IntakeBack(intakeSubsystem).withTimeout(0.5).andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)));
+    operatorController.b().whileTrue(new IntakeBack(intakeSubsystem).withTimeout(0.5).andThen(new LaunchAmp(shooterSubsystem, intakeSubsystem)));
     operatorController.x().whileTrue(new Intake(intakeSubsystem));
     operatorController.y().whileTrue(new Eject(intakeSubsystem, shooterSubsystem));
 

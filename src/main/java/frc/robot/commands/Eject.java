@@ -37,5 +37,6 @@ public class Eject extends Command {
     @Override
     public void end(boolean isInterrupted) {
         intakeSubsystem.stop();
+        shooterSubsystem.stop();
     }
 }
