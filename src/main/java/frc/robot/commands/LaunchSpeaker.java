@@ -30,7 +30,7 @@ public class LaunchSpeaker extends Command {
     
     @Override 
     public void initialize() {
-        new LaunchAmp(shooterSubsystem, intakeSubsystem).withTimeout(0.5);
+        new IntakeBack(intakeSubsystem).withTimeout(0.5);
         bottom.set(kSpeakerSpeed);
         top.set(kSpeakerSpeed);
         intake.set(intakingSpeed);

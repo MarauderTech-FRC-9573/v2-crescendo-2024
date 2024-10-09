@@ -30,7 +30,7 @@ public class LaunchAmp extends Command {
     
     @Override 
     public void initialize() {
-        new LaunchAmp(shooterSubsystem, intakeSubsystem).withTimeout(0.5);
+        new IntakeBack(intakeSubsystem).withTimeout(0.5);
         bottom.set(kAmpSpeedBottom);
         top.set(kAmpSpeedTop);
         intake.set(intakingSpeed);
