@@ -11,6 +11,7 @@ import edu.wpi.first.math.system.LinearSystem;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DigitalSource;
 
 public final class Constants {
   
@@ -25,7 +26,7 @@ public final class Constants {
     // Current limit for drivetrain motors
     public static final int kCurrentLimit = 60;
     
-    
+    public static int driverControllerPort = 0;
     public static int operatorControllerPort = 1;
     
     //PID values for gyro taken from wpilib gyrocommand example
@@ -57,7 +58,9 @@ public final class Constants {
     public static double precisionSpeed = 0.1;
     public static double defaultSpeed = 0.8;
     public static double turboSpeed = 1.0;
-    public static int driverControllerPort;
+    public static DigitalSource[] kLeftLeadEncoderPorts;
+    public static DigitalSource[] kRightLeadEncoderPorts;
+    
     
     
     
@@ -152,7 +155,7 @@ public final class Constants {
     }
     
     public static final class ShooterConstants {
-
+      
       // Speeds for wheels when intaking and launching. Intake speeds are negative to run the wheels
       // in reverse
       public static final double kSpeakerSpeed = 0.7; //Speed of shooting into speaker. both top and bottom flywheels run at the same speed 
