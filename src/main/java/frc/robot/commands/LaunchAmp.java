@@ -21,16 +21,14 @@ public class LaunchAmp extends Command {
     
     public LaunchAmp(ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
         this.shooterSubsystem = shooterSubsystem;
+        this.intakeSubsystem = intakeSubsystem;
         bottom = shooterSubsystem.bottomShooterMotor;
         top = shooterSubsystem.topShooterMotor;
-        intake = intakeSubsystem.intakeMotor;
-        timer = new Timer();
-        
+        intake = intakeSubsystem.intakeMotor;        
     }
     
     @Override 
     public void initialize() {
-        new IntakeBack(intakeSubsystem).withTimeout(0.5);
         bottom.set(kAmpSpeedBottom);
         top.set(kAmpSpeedTop);
         intake.set(intakingSpeed);
@@ -47,7 +45,7 @@ public class LaunchAmp extends Command {
     @Override
     public void end(boolean isInterrupted) {
         shooterSubsystem.stop();
-        // intakeSubsystem.stop();
+        intakeSubsystem.stop();
     }
     
 }

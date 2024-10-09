@@ -20,6 +20,7 @@ public class LaunchSpeaker extends Command {
     
     public LaunchSpeaker(ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
         this.shooterSubsystem = shooterSubsystem;
+        this.intakeSubsystem = intakeSubsystem;
         bottom = shooterSubsystem.bottomShooterMotor;
         top = shooterSubsystem.topShooterMotor;
         intake = intakeSubsystem.intakeMotor;
@@ -44,6 +45,6 @@ public class LaunchSpeaker extends Command {
     @Override
     public void end(boolean isInterrupted) {
         shooterSubsystem.stop();
-        // intakeSubsystem.stop();
+        intakeSubsystem.stop();
     }
 }
