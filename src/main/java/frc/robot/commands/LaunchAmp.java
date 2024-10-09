@@ -47,7 +47,7 @@ public class LaunchAmp extends Command {
     @Override
     public void end(boolean isInterrupted) {
         shooterSubsystem.stop();
-        intakeSubsystem.stop();
+        // intakeSubsystem.stop();
     }
     
 }
