@@ -46,15 +46,15 @@ public class DriveSubsystem extends SubsystemBase {
     private final CANSparkMax rightFront = new CANSparkMax(kRightFrontID, CANSparkLowLevel.MotorType.kBrushed);
     private final CANSparkMax rightRear = new CANSparkMax(kRightRearID, CANSparkLowLevel.MotorType.kBrushed);
     
-    private final Encoder driveLeftEncoder = new Encoder(DriveConstants.kLeftLeadEncoderPorts[0], kLeftLeadEncoderPorts[1]);
-    private final Encoder driveRightEncoder = new Encoder(DriveConstants.kRightLeadEncoderPorts[0], kRightLeadEncoderPorts[1]);
+    // private final Encoder driveLeftEncoder = new Encoder(DriveConstants.kLeftLeadEncoderPorts[0], kLeftLeadEncoderPorts[1]);
+    // private final Encoder driveRightEncoder = new Encoder(DriveConstants.kRightLeadEncoderPorts[0], kRightLeadEncoderPorts[1]);
     
     private final PIDController m_leftPIDController = new PIDController(1, 0, 0);
     private final PIDController m_rightPIDController = new PIDController(1, 0, 0);
     
     private final DifferentialDriveKinematics m_kinematics = new DifferentialDriveKinematics(kTrackWidth);
     
-    private final DifferentialDriveOdometry m_odometry;
+    // private final DifferentialDriveOdometry m_odometry;
 
     // Gains are for example purposes only - must be determined for your own robot!
     private final SimpleMotorFeedforward m_feedforward = new SimpleMotorFeedforward(1, 3);
@@ -85,9 +85,9 @@ public class DriveSubsystem extends SubsystemBase {
         // the rears set to follow the fronts
         m_drivetrain = new DifferentialDrive(leftFront, rightFront);
         
-        m_odometry =
-        new DifferentialDriveOdometry(
-            m_gyro.getRotation2d(), driveLeftEncoder.getDistance(), driveRightEncoder.getDistance());
+        // m_odometry =
+        // new DifferentialDriveOdometry(
+        //     m_gyro.getRotation2d(), driveLeftEncoder.getDistance(), driveRightEncoder.getDistance());
         
         m_drivetrain.setMaxOutput(DriveConstants.defaultSpeed);
     }
@@ -103,10 +103,10 @@ public class DriveSubsystem extends SubsystemBase {
     /** 
      * Drives the robot with the given linear velocity and angular velocity
      */
-    public void drive(double speed, double rotation) {
-        var wheelSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(speed, 0.0, rotation));
-        setSpeeds(wheelSpeeds);
-    }
+    // public void drive(double speed, double rotation) {
+    //     var wheelSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(speed, 0.0, rotation));
+    //     setSpeeds(wheelSpeeds);
+    // }
     
     
     @Override
@@ -123,16 +123,16 @@ public class DriveSubsystem extends SubsystemBase {
         
     }
     
-    public void setSpeeds(DifferentialDriveWheelSpeeds speeds) {
-        final double leftFeedforward = m_feedforward.calculate(speeds.leftMetersPerSecond);
-        final double rightFeedforward = m_feedforward.calculate(speeds.rightMetersPerSecond); 
+    // public void setSpeeds(DifferentialDriveWheelSpeeds speeds) {
+    //     final double leftFeedforward = m_feedforward.calculate(speeds.leftMetersPerSecond);
+    //     final double rightFeedforward = m_feedforward.calculate(speeds.rightMetersPerSecond); 
         
-        final double leftOutput = m_leftPIDController.calculate(driveLeftEncoder.getRate(), speeds.leftMetersPerSecond);
-        final double rightOutput = m_rightPIDController.calculate(driveRightEncoder.getRate(), speeds.rightMetersPerSecond);
+    //     final double leftOutput = m_leftPIDController.calculate(driveLeftEncoder.getRate(), speeds.leftMetersPerSecond);
+    //     final double rightOutput = m_rightPIDController.calculate(driveRightEncoder.getRate(), speeds.rightMetersPerSecond);
         
-        leftFront.set(leftOutput + leftFeedforward);
-        rightFront.set(rightOutput + rightFeedforward);
-    }
+    //     leftFront.set(leftOutput + leftFeedforward);
+    //     rightFront.set(rightOutput + rightFeedforward);
+    // }
     
     public double getHeading() {
         return Math.IEEEremainder(m_gyro.getAngle(), 360) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
@@ -156,10 +156,10 @@ public class DriveSubsystem extends SubsystemBase {
         
     }
 
-    public void updateOdometry() {
-        m_odometry.update(
-            m_gyro.getRotation2d(), driveLeftEncoder.getDistance(), driveRightEncoder.getDistance()
-        );
-    }
+    // public void updateOdometry() {
+    //     m_odometry.update(
+    //         m_gyro.getRotation2d(), driveLeftEncoder.getDistance(), driveRightEncoder.getDistance()
+    //     );
+    // }
     
 }
