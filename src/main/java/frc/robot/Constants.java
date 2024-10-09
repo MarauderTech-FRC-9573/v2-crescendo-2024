@@ -25,7 +25,7 @@ public final class Constants {
     // Current limit for drivetrain motors
     public static final int kCurrentLimit = 60;
     
-    
+    public static int driverControllerPort = 0;
     public static int operatorControllerPort = 1;
     
     //PID values for gyro taken from wpilib gyrocommand example
@@ -57,7 +57,6 @@ public final class Constants {
     public static double precisionSpeed = 0.1;
     public static double defaultSpeed = 0.8;
     public static double turboSpeed = 1.0;
-    public static int driverControllerPort;
     
     
     
