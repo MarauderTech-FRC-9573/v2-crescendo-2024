@@ -49,8 +49,8 @@ public class DriveSubsystem extends SubsystemBase {
     
     private DigitalSource[] kLeftLeadEncoderPorts;
     
-    private final Encoder driveLeftEncoder = new Encoder(DriveConstants.kLeftLeadEncoderPorts[0], kLeftLeadEncoderPorts[1]);
-    private final Encoder driveRightEncoder = new Encoder(DriveConstants.kRightLeadEncoderPorts[0], kRightLeadEncoderPorts[1]);
+    private final Encoder driveLeftEncoder = new Encoder(5, 6);
+    private final Encoder driveRightEncoder = new Encoder(7, 8);
     
     private final PIDController m_leftPIDController = new PIDController(1, 0, 0);
     private final PIDController m_rightPIDController = new PIDController(1, 0, 0);
