@@ -42,14 +42,14 @@ public class RobotContainer {
     initalizeAutoChooser();
     //pdh.setSwitchableChannel(true);
     configureButtonBindings();
-    driveSubsystem.setDefaultCommand(new RunCommand(() -> driveSubsystem.driveArcade(driverController.getLeftY(), driverController.getRightX()), driveSubsystem));
+    driveSubsystem.setDefaultCommand(new RunCommand(() -> driveSubsystem.driveArcade(-driverController.getLeftY(), driverController.getRightX()), driveSubsystem));
     // shooterSubsystem.setDefaultCommand(new NoteInPlace(shooterSubsystem, operatorController));
     SmartDashboard.putData("Autos: ", m_autoChooser);
 
   }
   
   private void configureButtonBindings() {
-    operatorController.a().whileTrue(new IntakeBack(intakeSubsystem).withTimeout(0.5).andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)));
+    operatorController.a().whileTrue(new IntakeBack(intakeSubsystem).withTimeout(0.75).andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)));
     operatorController.b().whileTrue(new IntakeBack(intakeSubsystem).withTimeout(0.5).andThen(new LaunchAmp(shooterSubsystem, intakeSubsystem)));
     operatorController.x().whileTrue(new Intake(intakeSubsystem));
     operatorController.y().whileTrue(new Eject(intakeSubsystem, shooterSubsystem));
