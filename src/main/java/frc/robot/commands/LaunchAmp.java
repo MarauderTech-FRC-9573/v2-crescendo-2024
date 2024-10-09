@@ -30,25 +30,17 @@ public class LaunchAmp extends Command {
     
     @Override 
     public void initialize() {
-        // RUN FOR 0.5 SECONDS
-        intakeSubsystem.intakeMotor.set(launchSpeed);
-        timer.reset();
-        timer.start();
-        isRunning = true;
+        new LaunchAmp(shooterSubsystem, intakeSubsystem).withTimeout(0.5);
+        bottom.set(kAmpSpeedBottom);
+        top.set(kAmpSpeedTop);
+        intake.set(intakingSpeed);
     }
     
     @Override
     public void execute() {
-        if (isRunning && timer.get() >= 0.5) {
-            isRunning = false;
-            shoot();
-        }
     }
     
     public void shoot() {
-        bottom.set(kAmpSpeedBottom);
-        top.set(kAmpSpeedTop);
-        intake.set(intakingSpeed);
         
     }
     

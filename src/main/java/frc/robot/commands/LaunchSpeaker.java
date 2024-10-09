@@ -30,24 +30,17 @@ public class LaunchSpeaker extends Command {
     
     @Override 
     public void initialize() {
-        intakeSubsystem.intakeMotor.set(launchSpeed);
-        timer.reset();
-        timer.start();
-        isRunning = true;
+        new LaunchAmp(shooterSubsystem, intakeSubsystem).withTimeout(0.5);
+        bottom.set(kSpeakerSpeed);
+        top.set(kSpeakerSpeed);
+        intake.set(intakingSpeed);
     }
     
     @Override
     public void execute() {
-        if (isRunning && timer.get() >= 0.5) {
-            isRunning = false;
-            shoot();
-        }
     }
     
     public void shoot() {
-        bottom.set(kSpeakerSpeed);
-        top.set(kSpeakerSpeed);
-        intake.set(intakingSpeed);
         
     }
     
