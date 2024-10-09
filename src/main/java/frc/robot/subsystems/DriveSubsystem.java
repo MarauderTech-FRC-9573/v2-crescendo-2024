@@ -16,6 +16,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.DigitalSource;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
@@ -46,8 +47,10 @@ public class DriveSubsystem extends SubsystemBase {
     private final CANSparkMax rightFront = new CANSparkMax(kRightFrontID, CANSparkLowLevel.MotorType.kBrushed);
     private final CANSparkMax rightRear = new CANSparkMax(kRightRearID, CANSparkLowLevel.MotorType.kBrushed);
     
-    // private final Encoder driveLeftEncoder = new Encoder(DriveConstants.kLeftLeadEncoderPorts[0], kLeftLeadEncoderPorts[1]);
-    // private final Encoder driveRightEncoder = new Encoder(DriveConstants.kRightLeadEncoderPorts[0], kRightLeadEncoderPorts[1]);
+    private DigitalSource[] kLeftLeadEncoderPorts;
+    
+    private final Encoder driveLeftEncoder = new Encoder(DriveConstants.kLeftLeadEncoderPorts[0], kLeftLeadEncoderPorts[1]);
+    private final Encoder driveRightEncoder = new Encoder(DriveConstants.kRightLeadEncoderPorts[0], kRightLeadEncoderPorts[1]);
     
     private final PIDController m_leftPIDController = new PIDController(1, 0, 0);
     private final PIDController m_rightPIDController = new PIDController(1, 0, 0);
@@ -55,10 +58,10 @@ public class DriveSubsystem extends SubsystemBase {
     private final DifferentialDriveKinematics m_kinematics = new DifferentialDriveKinematics(kTrackWidth);
     
     // private final DifferentialDriveOdometry m_odometry;
-
+    
     // Gains are for example purposes only - must be determined for your own robot!
     private final SimpleMotorFeedforward m_feedforward = new SimpleMotorFeedforward(1, 3);
-
+    
     // Gyroscope
     private final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
     
@@ -99,67 +102,58 @@ public class DriveSubsystem extends SubsystemBase {
     public void driveArcade(double speed, double rotation) {
         m_drivetrain.arcadeDrive(speed, rotation);
     }
-
+    
     /** 
-     * Drives the robot with the given linear velocity and angular velocity
-     */
+    * Drives the robot with the given linear velocity and angular velocity
+    */
     // public void drive(double speed, double rotation) {
-    //     var wheelSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(speed, 0.0, rotation));
-    //     setSpeeds(wheelSpeeds);
-    // }
-    
-    
-    @Override
-    public void periodic() {
+        //     var wheelSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(speed, 0.0, rotation));
+        //     setSpeeds(wheelSpeeds);
+        // }
         
-        // Get the rotation of the robot from the gyro.
-        var gyroAngle = m_gyro.getRotation2d();
         
-        // Update the pose
-        // m_pose = m_odometry.update(gyroAngle,
-        // driveLeftEncoder.getDistance(),
-        // driveRightEncoder.getDistance());
-        // SmartDashboard.putNumber("Gyro ", this.getHeading());
+        @Override
+        public void periodic() {
+            
+            // Get the rotation of the robot from the gyro.
+            var gyroAngle = m_gyro.getRotation2d();
+            
+            SmartDashboard.putNumber("Left Encoder Value: ", driveLeftEncoder.getDistance());
+            SmartDashboard.putNumber("Right Encoder Value: ", driveRightEncoder.getDistance());
+            
+            // Update the pose
+            // m_pose = m_odometry.update(gyroAngle,
+            // driveLeftEncoder.getDistance(),
+            // driveRightEncoder.getDistance());
+            // SmartDashboard.putNumber("Gyro ", this.getHeading());
+            
+        }
         
-    }
-    
-    // public void setSpeeds(DifferentialDriveWheelSpeeds speeds) {
-    //     final double leftFeedforward = m_feedforward.calculate(speeds.leftMetersPerSecond);
-    //     final double rightFeedforward = m_feedforward.calculate(speeds.rightMetersPerSecond); 
-        
-    //     final double leftOutput = m_leftPIDController.calculate(driveLeftEncoder.getRate(), speeds.leftMetersPerSecond);
-    //     final double rightOutput = m_rightPIDController.calculate(driveRightEncoder.getRate(), speeds.rightMetersPerSecond);
-        
-    //     leftFront.set(leftOutput + leftFeedforward);
-    //     rightFront.set(rightOutput + rightFeedforward);
-    // }
-    
-    public double getHeading() {
-        return Math.IEEEremainder(m_gyro.getAngle(), 360) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
-    }
-    
-    public void zeroHeading() {
-        
-        m_gyro.reset();
-        
-    }
-    
-    public void setMaxOutput(double maxOutput) {
-        
-        m_drivetrain.setMaxOutput(maxOutput);
-        
-    }
-    
-    public double getTurnRate() {
-        
-        return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
-        
-    }
-
-    // public void updateOdometry() {
-    //     m_odometry.update(
-    //         m_gyro.getRotation2d(), driveLeftEncoder.getDistance(), driveRightEncoder.getDistance()
-    //     );
-    // }
-    
-}
+            
+            public double getHeading() {
+                return Math.IEEEremainder(m_gyro.getAngle(), 360) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+            }
+            
+            public void zeroHeading() {
+                
+                m_gyro.reset();
+                
+            }
+            
+            public void setMaxOutput(double maxOutput) {
+                
+                m_drivetrain.setMaxOutput(maxOutput);
+                
+            }
+            
+            public double getTurnRate() {
+                
+                return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+                
+            }
+            
+            public void driveSet(int setpoint) {
+                leftFront.set(m_leftPIDController.calculate(driveLeftEncoder.getDistance(),setpoint));
+                rightFront.set(m_rightPIDController.calculate(driveRightEncoder.getDistance(), setpoint));
+            }
+            }
