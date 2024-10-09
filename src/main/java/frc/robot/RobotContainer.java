@@ -49,7 +49,7 @@ public class RobotContainer {
   }
   
   private void configureButtonBindings() {
-    operatorController.a().whileTrue(new IntakeBack(intakeSubsystem).withTimeout(0.75).andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)));
+    operatorController.a().whileTrue(new IntakeBack(intakeSubsystem).withTimeout(0.65).andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)));
     operatorController.b().whileTrue(new IntakeBack(intakeSubsystem).withTimeout(0.5).andThen(new LaunchAmp(shooterSubsystem, intakeSubsystem)));
     operatorController.x().whileTrue(new Intake(intakeSubsystem));
     operatorController.y().whileTrue(new Eject(intakeSubsystem, shooterSubsystem));
