@@ -13,21 +13,22 @@ public class NoteInPlace extends Command {
     CommandXboxController xboxController;
     XboxController controller;
 
-    public NoteInPlace(ShooterSubsystem shoot, CommandXboxController xbox) {
-        shooterSubsystem = shoot;
-        xboxController
-         = xbox;
-        controller = xboxController.getHID();
-
+    public NoteInPlace(ShooterSubsystem shooterSubsystem, CommandXboxController xboxController) {
+        this.shooterSubsystem = shooterSubsystem;
+        this.xboxController = xboxController;
+        this.controller = xboxController.getHID();
+        
     }
 
     public void periodic() {
         if (shooterSubsystem.beamBreaker.get()) {
+            System.out.println("Note detected...");
             controller.setRumble(RumbleType.kLeftRumble, 1.0);
             controller.setRumble(RumbleType.kRightRumble, 1.0);
         } else {
-            controller.setRumble(RumbleType.kLeftRumble, 1);
-            controller.setRumble(RumbleType.kRightRumble, 1);
+            System.out.println("No note detected...");
+            controller.setRumble(RumbleType.kLeftRumble, 0);
+            controller.setRumble(RumbleType.kRightRumble, 0);
         }
 
     }
