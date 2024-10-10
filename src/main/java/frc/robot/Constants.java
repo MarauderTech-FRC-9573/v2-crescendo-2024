@@ -11,6 +11,7 @@ import edu.wpi.first.math.system.LinearSystem;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DigitalSource;
 
 public final class Constants {
   
@@ -57,6 +58,7 @@ public final class Constants {
     public static double precisionSpeed = 0.2;
     public static double defaultSpeed = 0.8;
     public static double turboSpeed = 1.0;
+    
     
     
     
@@ -151,7 +153,7 @@ public final class Constants {
     }
     
     public static final class ShooterConstants {
-
+      
       // Speeds for wheels when intaking and launching. Intake speeds are negative to run the wheels
       // in reverse
       public static final double kSpeakerSpeed = 0.7; //Speed of shooting into speaker. both top and bottom flywheels run at the same speed 

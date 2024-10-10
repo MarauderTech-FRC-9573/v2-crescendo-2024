@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import javax.swing.plaf.synth.SynthToolTipUI;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -10,25 +11,19 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class NoteInPlace extends Command {
     ShooterSubsystem shooterSubsystem;
+    DigitalInput beamBreaker;
     CommandXboxController xboxController;
     XboxController controller;
 
-    public NoteInPlace(ShooterSubsystem shoot, CommandXboxController xbox) {
-        shooterSubsystem = shoot;
-        xboxController
-         = xbox;
-        controller = xboxController.getHID();
-
+    public NoteInPlace(ShooterSubsystem shooterSubsystem, CommandXboxController xboxController) {
+        this.shooterSubsystem = shooterSubsystem;
+        this.beamBreaker = shooterSubsystem.beamBreaker;
+        this.xboxController = xboxController;
+        this.controller = xboxController.getHID();
+        
     }
 
     public void periodic() {
-        if (shooterSubsystem.beamBreaker.get()) {
-            controller.setRumble(RumbleType.kLeftRumble, 1.0);
-            controller.setRumble(RumbleType.kRightRumble, 1.0);
-        } else {
-            controller.setRumble(RumbleType.kLeftRumble, 1);
-            controller.setRumble(RumbleType.kRightRumble, 1);
-        }
 
     }
 }
