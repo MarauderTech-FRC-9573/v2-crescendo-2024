@@ -23,7 +23,7 @@ public final class Constants {
     public static final int kRightFrontID = 3;
     
     // Current limit for drivetrain motors
-    public static final int kCurrentLimit = 60;
+    public static final int kCurrentLimit = 40;
     
     public static int driverControllerPort = 0;
     public static int operatorControllerPort = 1;
@@ -54,7 +54,7 @@ public final class Constants {
     public static double kWheelDiameterMeters = 0.15;
     
     // default speed of the robot
-    public static double precisionSpeed = 0.5;
+    public static double precisionSpeed = 0.2;
     public static double defaultSpeed = 0.8;
     public static double turboSpeed = 1.0;
     
@@ -155,8 +155,8 @@ public final class Constants {
       // Speeds for wheels when intaking and launching. Intake speeds are negative to run the wheels
       // in reverse
       public static final double kSpeakerSpeed = 0.7; //Speed of shooting into speaker. both top and bottom flywheels run at the same speed 
-      public static final double kAmpSpeedTop = 0.2; //Speed of shooting into the amp, running the top wheels
-      public static final double kAmpSpeedBottom = 0.4; //Speed of shooting into the amp, running the bottom wheels
+      public static final double kAmpSpeedTop = 0.30; //Speed of shooting into the amp, running the top wheels
+      public static final double kAmpSpeedBottom = 0.1; //Speed of shooting into the amp, running the bottom wheels
       
       public static final double kIntakeEject = -0.3;
       
