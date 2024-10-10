@@ -42,7 +42,7 @@ public class RobotContainer {
     initalizeAutoChooser();
     //pdh.setSwitchableChannel(true);
     configureButtonBindings();
-    driveSubsystem.setDefaultCommand(new RunCommand(() -> driveSubsystem.driveArcade(driverController.getLeftY(), driverController.getRightX()), driveSubsystem));
+    driveSubsystem.setDefaultCommand(new RunCommand(() -> driveSubsystem.driveArcade(-driverController.getLeftY(), driverController.getRightX()), driveSubsystem));
     shooterSubsystem.setDefaultCommand(new RunCommand(() -> shooterSubsystem.noteinPlace(driverController, operatorController), shooterSubsystem));
     SmartDashboard.putData("Autos: ", m_autoChooser);
 
