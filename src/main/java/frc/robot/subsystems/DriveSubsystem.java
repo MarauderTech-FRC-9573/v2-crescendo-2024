@@ -71,10 +71,10 @@ public class DriveSubsystem extends SubsystemBase {
     * member variables and perform any configuration or set up necessary on hardware.
     */
     public DriveSubsystem() {
-        leftFront.setSmartCurrentLimit(kCurrentLimit);
-        leftRear.setSmartCurrentLimit(kCurrentLimit);
-        rightFront.setSmartCurrentLimit(kCurrentLimit);
-        rightRear.setSmartCurrentLimit(kCurrentLimit);
+        leftFront.setSmartCurrentLimit(kDriveCurrentLimit);
+        leftRear.setSmartCurrentLimit(kDriveCurrentLimit);
+        rightFront.setSmartCurrentLimit(kDriveCurrentLimit);
+        rightRear.setSmartCurrentLimit(kDriveCurrentLimit);
         
         // Set the rear motors to follow the front motors.
         leftRear.follow(leftFront);

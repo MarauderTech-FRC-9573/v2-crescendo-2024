@@ -19,6 +19,8 @@ public class ShooterSubsystem extends SubsystemBase {
   public ShooterSubsystem() { 
     bottomShooterMotor = new CANSparkMax(7, MotorType.kBrushless);
     topShooterMotor = new CANSparkMax(8, MotorType.kBrushless);
+    bottomShooterMotor.setSmartCurrentLimit(kShooterCurrentLimit);
+    topShooterMotor.setSmartCurrentLimit(kShooterCurrentLimit);
   }
   
   public void stop() {
