@@ -79,17 +79,17 @@ public class RobotContainer {
       new WaitCommand(0.1)
       .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0.5, 0), driveSubsystem))
       .withTimeout(3)
-      .andThen(new RunCommand(() -> LaunchSpeaker(shooterSubsystem), shooterSubsystem)));
+      .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)));
 
       m_autoChooser.setDefaultOption("2 Note:", 
       new WaitCommand(0.1)
-      .andThen(new RunCommand(() -> LaunchSpeaker(shooterSubsystem), shooterSubsystem))
+      .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem))
       .withTimeout(3)
-      .andThen(Commands.parallel(new RunCommand(() -> driveSubsystem.driveArcade(0.5, 0), driveSubsystem), new RunCommand(() -> new Intake(intakeSubsystem), intakeSubsystem)))
+      .andThen(Commands.parallel(new RunCommand(() -> driveSubsystem.driveArcade(-0.5, 0), driveSubsystem), new Intake(intakeSubsystem)))
       .withTimeout(3)
-      .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0.5, 0)))
+      .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0.5, 0))
       .withTimeout(3)
-      .andThen(new RunCommand(() -> LaunchSpeaker(shooterSubsystem), shooterSubsystem)));
+      .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem))));
   }
   
   private Object LaunchSpeaker(ShooterSubsystem shooterSubsystem2) {
