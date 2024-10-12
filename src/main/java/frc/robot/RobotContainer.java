@@ -52,11 +52,11 @@ public class RobotContainer {
   }
   
   private void configureButtonBindings() {
-    operatorController.a().whileTrue(new IntakeBack(intakeSubsystem).withTimeout(0.5).andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)));
-    operatorController.b().whileTrue(new IntakeBack(intakeSubsystem).withTimeout(0.5).andThen(new LaunchAmp(shooterSubsystem, intakeSubsystem)));
-    operatorController.x().whileTrue(new Spoonfeeding(shooterSubsystem));
-    operatorController.leftBumper().whileTrue(new Intake(intakeSubsystem));
-    operatorController.rightBumper().whileTrue(new Eject(intakeSubsystem, shooterSubsystem));
+    operatorController.rightTrigger().whileTrue(new IntakeBack(intakeSubsystem).withTimeout(0.5).andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)));
+    operatorController.leftTrigger().whileTrue(new IntakeBack(intakeSubsystem).withTimeout(0.5).andThen(new LaunchAmp(shooterSubsystem, intakeSubsystem)));
+    operatorController.rightBumper().whileTrue(new IntakeBack(intakeSubsystem).withTimeout(0.5).andThen(new Spoonfeeding(shooterSubsystem, intakeSubsystem)));
+    operatorController.x().whileTrue(new Intake(intakeSubsystem));
+    operatorController.y().whileTrue(new Eject(intakeSubsystem, shooterSubsystem));
 
     // Set up a binding to run the intake command while the operator is pressing and holding the x button
 
@@ -72,7 +72,7 @@ public class RobotContainer {
 
   public void initalizeAutoChooser() {
       
-      m_autoChooser.setDefaultOption("Drive forward: ", 
+      m_autoChooser.addOption("Drive forward: ", 
       new WaitCommand(0.1)
       .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0.5, 0), driveSubsystem))
       .withTimeout(3)
@@ -84,7 +84,7 @@ public class RobotContainer {
       .withTimeout(3)
       .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)));
 
-      m_autoChooser.addOption("2 Note:", 
+      m_autoChooser.setDefaultOption ("2 Note:", 
       new WaitCommand(0.1)
       .andThen(new IntakeBack(intakeSubsystem))
       .withTimeout(0.5)
