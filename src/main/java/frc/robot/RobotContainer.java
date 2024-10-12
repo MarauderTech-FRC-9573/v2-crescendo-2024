@@ -35,11 +35,11 @@ public class RobotContainer {
   //private final VisionSubsystem  visionSubsystem = new VisionSubsystem();
   private final CommandXboxController operatorController = new CommandXboxController(DriveConstants.operatorControllerPort);
   private final CommandXboxController driverController = new CommandXboxController(DriveConstants.driverControllerPort);
-
+  
   //private final PowerDistribution pdh = new PowerDistribution(1, ModuleType.kRev);
-
+  
   private final SendableChooser<Command> m_autoChooser = new SendableChooser<Command>();
-
+  
   
   public RobotContainer() {
     initalizeAutoChooser();
@@ -48,7 +48,7 @@ public class RobotContainer {
     driveSubsystem.setDefaultCommand(new RunCommand(() -> driveSubsystem.driveArcade(-driverController.getLeftY(), driverController.getRightX()), driveSubsystem));
     shooterSubsystem.setDefaultCommand(new RunCommand(() -> shooterSubsystem.noteinPlace(driverController, operatorController), shooterSubsystem));
     SmartDashboard.putData("Autos: ", m_autoChooser);
-
+    
   }
   
   private void configureButtonBindings() {
@@ -57,55 +57,59 @@ public class RobotContainer {
     operatorController.rightBumper().whileTrue(new IntakeBack(intakeSubsystem).withTimeout(0.5).andThen(new Spoonfeeding(shooterSubsystem, intakeSubsystem)));
     operatorController.x().whileTrue(new Intake(intakeSubsystem));
     operatorController.y().whileTrue(new Eject(intakeSubsystem, shooterSubsystem));
-
+    
     // Set up a binding to run the intake command while the operator is pressing and holding the x button
-
+    
     driverController.leftBumper()
-        .whileTrue(new InstantCommand(() -> driveSubsystem.setMaxOutput(turboSpeed)))
-        .whileFalse(new InstantCommand(() -> driveSubsystem.setMaxOutput(defaultSpeed)));
-
+    .whileTrue(new InstantCommand(() -> driveSubsystem.setMaxOutput(turboSpeed)))
+    .whileFalse(new InstantCommand(() -> driveSubsystem.setMaxOutput(defaultSpeed)));
+    
     driverController.rightBumper()
-        .whileTrue(new InstantCommand(() -> driveSubsystem.setMaxOutput(precisionSpeed)))
-        .whileFalse(new InstantCommand(() -> driveSubsystem.setMaxOutput(defaultSpeed)));
-  
+    .whileTrue(new InstantCommand(() -> driveSubsystem.setMaxOutput(precisionSpeed)))
+    .whileFalse(new InstantCommand(() -> driveSubsystem.setMaxOutput(defaultSpeed)));
+    
   }
-
+  
   public void initalizeAutoChooser() {
-      
-      m_autoChooser.addOption("Drive forward: ", 
-      new WaitCommand(0.1)
-      .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0.5, 0), driveSubsystem))
-      .withTimeout(3)
-      .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0, 0), driveSubsystem)));
-      
-      m_autoChooser.addOption("Speaker note: ", 
-      new WaitCommand(0.1)
-      .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0.5, 0), driveSubsystem))
-      .withTimeout(3)
-      .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)));
-
-      m_autoChooser.setDefaultOption ("2 Note:", 
-      new WaitCommand(0.1)
-      .andThen(new IntakeBack(intakeSubsystem))
-      .withTimeout(0.5)
-      .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)
-      .withTimeout(3))
-      .andThen(new AutoMoveIntake(driveSubsystem, intakeSubsystem, shooterSubsystem))
-      .withTimeout(2)
-      .andThen(new RunCommand(() -> driveSubsystem.driveArcade(-0.5, 0), driveSubsystem)
-      .withTimeout(3))
-      .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)
-      .withTimeout(0.5))
-      .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0, 0), driveSubsystem)));
+    
+    m_autoChooser.addOption("TAXI: ", 
+    new WaitCommand(0.1)
+    .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0.5, 0), driveSubsystem))
+    .withTimeout(3)
+    .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0, 0), driveSubsystem)));
+    
+    m_autoChooser.setDefaultOption("SPEAKER, TAXI: ", 
+    new WaitCommand(0.1)
+    .andThen(new IntakeBack(intakeSubsystem))
+    .withTimeout(0.5)
+    .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem))
+    .withTimeout(3)
+    .andThen(new RunCommand(() -> driveSubsystem.driveArcade(-1.0, 0), driveSubsystem))
+    .withTimeout(3)
+    .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0, 0), driveSubsystem)));
+    
+    m_autoChooser.addOption("2 NOTE:", 
+    new WaitCommand(0.1)
+    .andThen(new IntakeBack(intakeSubsystem))
+    .withTimeout(0.5)
+    .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)
+    .withTimeout(3))
+    .andThen(new AutoMoveIntake(driveSubsystem, intakeSubsystem, shooterSubsystem))
+    .withTimeout(2)
+    .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0.7, 0), driveSubsystem)
+    .withTimeout(2))
+    .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)
+    .withTimeout(0.5))
+    .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0, 0), driveSubsystem)));
   }
   
   private Object LaunchSpeaker(ShooterSubsystem shooterSubsystem2) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'LaunchSpeaker'");
   }
-
+  
   public Command getAutonomousCommand() {
-      return m_autoChooser.getSelected();
+    return m_autoChooser.getSelected();
     
-    }
+  }
 }

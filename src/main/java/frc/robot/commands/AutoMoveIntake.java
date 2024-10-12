@@ -35,5 +35,12 @@ public class AutoMoveIntake extends Command {
         driveSubsystem.driveArcade(0.7, 0);
         intakeMotor.set(intakingSpeed);
     }
+
+    @Override
+    public void end(boolean isInterrupted) {
+        driveSubsystem.driveArcade(0, 0);
+        intakeSubsystem.stop();
+        shooterSubsystem.stop();
+    }
     
 }

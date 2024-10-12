@@ -26,4 +26,9 @@ public class DriveForwardCmd extends Command {
     public void execute() {
         driveSubsystem.driveArcade(speed, 0);
     }
+
+    @Override
+    public void end(boolean isInterrupted) {
+        driveSubsystem.driveArcade(0, 0);
+    }
 }
