@@ -83,8 +83,8 @@ public class RobotContainer {
     .andThen(new IntakeBack(intakeSubsystem))
     .withTimeout(0.5)
     .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem))
-    .withTimeout(3)
-    .andThen(new RunCommand(() -> driveSubsystem.driveArcade(-1.0, 0), driveSubsystem))
+    .withTimeout(4)
+    .andThen(new RunCommand(() -> driveSubsystem.driveArcade(1.0, 0), driveSubsystem))
     .withTimeout(3)
     .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0, 0), driveSubsystem)));
     
@@ -93,15 +93,15 @@ public class RobotContainer {
     .andThen(new IntakeBack(intakeSubsystem))
     .withTimeout(0.5)
     .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)
-    .withTimeout(3))
+    .withTimeout(4))
     .andThen(new AutoMoveIntake(driveSubsystem, intakeSubsystem, shooterSubsystem))
     .withTimeout(2)
-    .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0.7, 0), driveSubsystem)
+    .andThen(new RunCommand(() -> driveSubsystem.driveArcade(-0.7, 0), driveSubsystem)
     .withTimeout(2))
     .andThen(new IntakeBack(intakeSubsystem))
     .withTimeout(0.5)
     .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)
-    .withTimeout(3))
+    .withTimeout(4))
     .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0, 0), driveSubsystem)));
   }
   
