@@ -23,9 +23,6 @@ public class AutoMoveIntake extends Command {
         this.driveSubsystem = driveSubsystem;
         this.intakeSubsystem = intakeSubsystem;
         this.shooterSubsystem = shooterSubsystem;
-        this.intakeMotor = intakeSubsystem.intakeMotor;
-        this.beamBreaker = shooterSubsystem.beamBreaker;
-
     }
     
     @Override
@@ -36,13 +33,7 @@ public class AutoMoveIntake extends Command {
     @Override
     public void execute() {
         driveSubsystem.driveArcade(0.5, 0);
-        if (beamBreaker.get()) {
-            System.out.println("No note spinning");
-            intakeMotor.set(intakingSpeed);
-        } else {
-            System.out.println("Note no spinning");
-            intakeMotor.set(0);
-        }
-        
+        intakeMotor.set(intakingSpeed);
     }
+    
 }
