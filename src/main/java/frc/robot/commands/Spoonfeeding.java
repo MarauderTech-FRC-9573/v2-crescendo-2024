@@ -1,5 +1,10 @@
 package frc.robot.commands;
 
+import com.revrobotics.CANSparkMax;
+
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.ShooterSubsystem;
+
 public class Spoonfeeding extends Command {
     private ShooterSubsystem shooterSubsystem;
     private CANSparkMax topMotor;
