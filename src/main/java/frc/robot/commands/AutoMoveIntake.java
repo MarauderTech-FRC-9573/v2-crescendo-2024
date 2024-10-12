@@ -37,8 +37,10 @@ public class AutoMoveIntake extends Command {
     public void execute() {
         driveSubsystem.driveArcade(0.5, 0);
         if (beamBreaker.get()) {
+            System.out.println("No note spinning");
             intakeMotor.set(intakingSpeed);
         } else {
+            System.out.println("Note no spinning");
             intakeMotor.set(0);
         }
         
