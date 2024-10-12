@@ -70,7 +70,7 @@ public class RobotContainer {
 
   public void initalizeAutoChooser() {
       
-      m_autoChooser.addOption("Drive forward: ", 
+      m_autoChooser.setDefaultOption("Drive forward: ", 
       new WaitCommand(0.1)
       .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0.5, 0), driveSubsystem))
       .withTimeout(3)
@@ -82,7 +82,7 @@ public class RobotContainer {
       .withTimeout(3)
       .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)));
 
-      m_autoChooser.setDefaultOption("2 Note:", 
+      m_autoChooser.addOption("2 Note:", 
       new WaitCommand(0.1)
       .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)
       .withTimeout(3))
