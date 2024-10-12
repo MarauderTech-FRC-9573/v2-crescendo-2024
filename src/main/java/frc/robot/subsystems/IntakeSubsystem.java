@@ -13,6 +13,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public final CANSparkMax intakeMotor;
     public IntakeSubsystem() {
         intakeMotor = new CANSparkMax(6, CANSparkLowLevel.MotorType.kBrushed);
+        intakeMotor.setSmartCurrentLimit(kIntakeCurrentLimit);
         
     }
 

@@ -4,6 +4,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import static frc.robot.Constants.ShooterConstants.*;
 
+import java.time.Year;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
@@ -19,6 +21,8 @@ public class ShooterSubsystem extends SubsystemBase {
   public ShooterSubsystem() { 
     bottomShooterMotor = new CANSparkMax(7, MotorType.kBrushless);
     topShooterMotor = new CANSparkMax(8, MotorType.kBrushless);
+    bottomShooterMotor.setSmartCurrentLimit(kShooterCurrentLimit);
+    topShooterMotor.setSmartCurrentLimit(kShooterCurrentLimit);
   }
   
   public void stop() {
