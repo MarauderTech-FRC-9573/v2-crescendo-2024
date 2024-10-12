@@ -98,8 +98,10 @@ public class RobotContainer {
     .withTimeout(2)
     .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0.7, 0), driveSubsystem)
     .withTimeout(2))
+    .andThen(new IntakeBack(intakeSubsystem))
+    .withTimeout(0.5)
     .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)
-    .withTimeout(0.5))
+    .withTimeout(3))
     .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0, 0), driveSubsystem)));
   }
   
