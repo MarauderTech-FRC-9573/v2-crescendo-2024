@@ -32,7 +32,7 @@ public class AutoMoveIntake extends Command {
     
     @Override
     public void execute() {
-        driveSubsystem.driveArcade(0.5, 0);
+        driveSubsystem.driveArcade(0.7, 0);
         intakeMotor.set(intakingSpeed);
     }
     

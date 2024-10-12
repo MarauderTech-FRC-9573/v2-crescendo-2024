@@ -15,6 +15,7 @@ import frc.robot.Constants.IntakeConstants;
 import frc.robot.commands.LaunchAmp;
 import frc.robot.commands.LaunchSpeaker;
 import frc.robot.commands.NoteInPlace;
+import frc.robot.commands.Spoonfeeding;
 
 import static frc.robot.Constants.DriveConstants.precisionSpeed;
 import static frc.robot.Constants.DriveConstants.turboSpeed;
@@ -51,10 +52,11 @@ public class RobotContainer {
   }
   
   private void configureButtonBindings() {
-    operatorController.a().whileTrue(new IntakeBack(intakeSubsystem).withTimeout(0.65).andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)));
+    operatorController.a().whileTrue(new IntakeBack(intakeSubsystem).withTimeout(0.5).andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)));
     operatorController.b().whileTrue(new IntakeBack(intakeSubsystem).withTimeout(0.5).andThen(new LaunchAmp(shooterSubsystem, intakeSubsystem)));
-    operatorController.x().whileTrue(new Intake(intakeSubsystem));
-    operatorController.y().whileTrue(new Eject(intakeSubsystem, shooterSubsystem));
+    operatorController.x().whileTrue(new Spoonfeeding(shooterSubsystem));
+    operatorController.leftBumper().whileTrue(new Intake(intakeSubsystem));
+    operatorController.rightBumper().whileTrue(new Eject(intakeSubsystem, shooterSubsystem));
 
     // Set up a binding to run the intake command while the operator is pressing and holding the x button
 
@@ -84,10 +86,12 @@ public class RobotContainer {
 
       m_autoChooser.addOption("2 Note:", 
       new WaitCommand(0.1)
+      .andThen(new IntakeBack(intakeSubsystem))
+      .withTimeout(0.5)
       .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)
       .withTimeout(3))
       .andThen(new AutoMoveIntake(driveSubsystem, intakeSubsystem, shooterSubsystem))
-      .withTimeout(3)
+      .withTimeout(2)
       .andThen(new RunCommand(() -> driveSubsystem.driveArcade(-0.5, 0), driveSubsystem)
       .withTimeout(3))
       .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)
