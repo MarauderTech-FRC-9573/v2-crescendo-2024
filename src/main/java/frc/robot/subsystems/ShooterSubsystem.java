@@ -31,17 +31,14 @@ public class ShooterSubsystem extends SubsystemBase {
   }
   
   public void noteinPlace(CommandXboxController xboxController1, CommandXboxController xboxController2) {
-    System.out.println("hi!");
     GenericHID controller1 = xboxController1.getHID();
     GenericHID controller2 = xboxController2.getHID();
     if (!beamBreaker.get()) {
-      System.out.println("Note detected...");
-      //controller1.setRumble(RumbleType.kLeftRumble, 1.0);
-      //controller2.setRumble(RumbleType.kRightRumble, 1.0);
+      controller1.setRumble(RumbleType.kLeftRumble, 1.0);
+      controller2.setRumble(RumbleType.kRightRumble, 1.0);
     } else {
-      System.out.println("No note detected...");
-      //controller1.setRumble(RumbleType.kLeftRumble, 0);
-      //controller2.setRumble(RumbleType.kRightRumble, 0);
+      controller1.setRumble(RumbleType.kLeftRumble, 0);
+      controller2.setRumble(RumbleType.kRightRumble, 0);
     }
     
   }

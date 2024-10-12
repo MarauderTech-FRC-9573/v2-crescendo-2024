@@ -8,6 +8,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.Intake;
 import frc.robot.commands.IntakeBack;
+import frc.robot.commands.AutoMoveIntake;
 import frc.robot.commands.Eject;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.IntakeConstants;
@@ -20,6 +21,7 @@ import static frc.robot.Constants.DriveConstants.turboSpeed;
 import static frc.robot.Constants.DriveConstants.defaultSpeed;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -68,7 +70,7 @@ public class RobotContainer {
 
   public void initalizeAutoChooser() {
       
-      m_autoChooser.setDefaultOption("Drive forward: ", 
+      m_autoChooser.addOption("Drive forward: ", 
       new WaitCommand(0.1)
       .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0.5, 0), driveSubsystem))
       .withTimeout(3)
@@ -78,7 +80,19 @@ public class RobotContainer {
       new WaitCommand(0.1)
       .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0.5, 0), driveSubsystem))
       .withTimeout(3)
-      .andThen(new RunCommand(() -> LaunchSpeaker(shooterSubsystem), shooterSubsystem)));
+      .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)));
+
+      m_autoChooser.setDefaultOption("2 Note:", 
+      new WaitCommand(0.1)
+      .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)
+      .withTimeout(3))
+      .andThen(new AutoMoveIntake(driveSubsystem, intakeSubsystem, shooterSubsystem))
+      .withTimeout(3)
+      .andThen(new RunCommand(() -> driveSubsystem.driveArcade(-0.5, 0), driveSubsystem)
+      .withTimeout(3))
+      .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)
+      .withTimeout(0.5))
+      .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0, 0), driveSubsystem)));
   }
   
   private Object LaunchSpeaker(ShooterSubsystem shooterSubsystem2) {
@@ -91,5 +105,3 @@ public class RobotContainer {
     
     }
 }
-  
-  
