@@ -8,6 +8,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.Intake;
 import frc.robot.commands.IntakeBack;
+import frc.robot.commands.AutoMoveIntake;
 import frc.robot.commands.Eject;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.IntakeConstants;
@@ -83,13 +84,15 @@ public class RobotContainer {
 
       m_autoChooser.setDefaultOption("2 Note:", 
       new WaitCommand(0.1)
-      .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem))
+      .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)
+      .withTimeout(1))
+      .andThen(new AutoMoveIntake(driveSubsystem, intakeSubsystem))
       .withTimeout(3)
-      .andThen(Commands.parallel(new RunCommand(() -> driveSubsystem.driveArcade(-0.5, 0), driveSubsystem), new Intake(intakeSubsystem)))
-      .withTimeout(3)
-      .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0.5, 0))
-      .withTimeout(3)
-      .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem))));
+      .andThen(new RunCommand(() -> driveSubsystem.driveArcade(-0.5, 0), driveSubsystem)
+      .withTimeout(3))
+      .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)
+      .withTimeout(0.5))
+      .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0, 0), driveSubsystem)));
   }
   
   private Object LaunchSpeaker(ShooterSubsystem shooterSubsystem2) {
