@@ -10,6 +10,7 @@ import frc.robot.commands.Intake;
 import frc.robot.commands.IntakeBack;
 import frc.robot.commands.AutoMoveIntake;
 import frc.robot.commands.Eject;
+import frc.robot.commands.ForceIntake;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.commands.LaunchAmp;
@@ -45,7 +46,7 @@ public class RobotContainer {
     //pdh.setSwitchableChannel(true);
     configureButtonBindings();
     driveSubsystem.setDefaultCommand(new RunCommand(() -> driveSubsystem.driveArcade(-driverController.getLeftY(), driverController.getRightX()), driveSubsystem));
-    //intakeSubsystem.setDefaultCommand(new RunCommand(() -> intakeSubsystem.noteinPlace()));
+    intakeSubsystem.setDefaultCommand(new RunCommand(() -> intakeSubsystem.noteinPlace(driverController, operatorController), intakeSubsystem));
     SmartDashboard.putData("Autos: ", m_autoChooser);
     
   }
@@ -56,6 +57,7 @@ public class RobotContainer {
     operatorController.rightBumper().whileTrue(new IntakeBack(intakeSubsystem).withTimeout(0.5).andThen(new Spoonfeeding(shooterSubsystem, intakeSubsystem)));
     operatorController.x().whileTrue(new Intake(intakeSubsystem));
     operatorController.y().whileTrue(new Eject(intakeSubsystem, shooterSubsystem));   
+    operatorController.leftBumper().whileTrue(new ForceIntake(intakeSubsystem));
     // Set up a binding to run the intake command while the operator is pressing and holding the x button
     
     driverController.leftBumper()
@@ -90,19 +92,20 @@ public class RobotContainer {
     new WaitCommand(0.1)
     .andThen(new IntakeBack(intakeSubsystem))
     .withTimeout(0.5)
-    .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)
-    .withTimeout(2))
+    .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem))
+    .withTimeout(2)
     .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0.7, 0), driveSubsystem))
     .withTimeout(2)
     .andThen(new Intake(intakeSubsystem))
     .withTimeout(1)
-    .andThen(new RunCommand(() -> driveSubsystem.driveArcade(-0.7, 0), driveSubsystem)
-    .withTimeout(2))
+    .andThen(new RunCommand(() -> driveSubsystem.driveArcade(-0.7, 0), driveSubsystem))
+    .withTimeout(2)
     .andThen(new IntakeBack(intakeSubsystem))
     .withTimeout(0.5)
-    .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)
-    .withTimeout(2))
-    .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0, 0), driveSubsystem)));
+    .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem))
+    .withTimeout(2)
+    .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0, 0), driveSubsystem))
+    );
   }
   
   private Object LaunchSpeaker(ShooterSubsystem shooterSubsystem2) {

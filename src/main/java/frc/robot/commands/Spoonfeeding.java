@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -12,6 +13,8 @@ public class Spoonfeeding extends Command {
     private CANSparkMax topMotor;
     private CANSparkMax bottomMotor;
     private CANSparkMax intakeMotor;
+
+    private RelativeEncoder topEncoder, bottomEncoder;
     
     public Spoonfeeding(ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
         this.shooterSubsystem = shooterSubsystem;
@@ -20,16 +23,22 @@ public class Spoonfeeding extends Command {
         this.topMotor = shooterSubsystem.topShooterMotor;
         this.bottomMotor = shooterSubsystem.bottomShooterMotor;
 
+        topEncoder = topMotor.getEncoder();
+        bottomEncoder = bottomMotor.getEncoder();
+
     }
 
     @Override 
-    public void initialize() {}
+    public void initialize() {
+        bottomMotor.set(0.5);
+        topMotor.set(0.8);
+    }
 
     @Override
     public void execute() {
-        topMotor.set(1.0);
-        bottomMotor.set(0.6);
-        intakeMotor.set(0.9);
+        if (topEncoder.getVelocity() > 750 && bottomEncoder.getVelocity() > 550) {
+            intakeMotor.set(0.7);
+        }
     }
 
     @Override
