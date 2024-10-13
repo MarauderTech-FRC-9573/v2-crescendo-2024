@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import static frc.robot.Constants.DriveConstants.*;
@@ -83,10 +84,12 @@ public class DriveSubsystem extends SubsystemBase {
         // Invert the left side so both side drive forward with positive motor outputs
         leftFront.setInverted(false);
         rightFront.setInverted(true);
+
         
         // Put the front motors into the differential drive object. This will control all 4 motors with
         // the rears set to follow the fronts
         m_drivetrain = new DifferentialDrive(leftFront, rightFront);
+        m_drivetrain.setSafetyEnabled(false);
         
         // m_odometry =
         // new DifferentialDriveOdometry(

@@ -4,6 +4,7 @@ import static frc.robot.Constants.IntakeConstants.*;
 import static frc.robot.Constants.ShooterConstants.*;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -17,6 +18,8 @@ public class LaunchSpeaker extends Command {
     private CANSparkMax top; 
     private IntakeSubsystem intakeSubsystem;
     private CANSparkMax intake;
+
+    private RelativeEncoder topEncoder, bottomEncoder;
     
     public LaunchSpeaker(ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
         this.shooterSubsystem = shooterSubsystem;
@@ -25,17 +28,22 @@ public class LaunchSpeaker extends Command {
         top = shooterSubsystem.topShooterMotor;
         intake = intakeSubsystem.intakeMotor;
 
+        topEncoder = top.getEncoder();
+        bottomEncoder = bottom.getEncoder();
+
     }
     
     @Override 
     public void initialize() {
         bottom.set(kSpeakerSpeed);
         top.set(kSpeakerSpeed);
-        intake.set(intakingSpeed);
     }
     
     @Override
     public void execute() {
+        if (topEncoder.getVelocity() > 1000 && bottomEncoder.getVelocity() > 1000) {
+            intake.set(intakingSpeed);
+        }
     }
     
     public void shoot() {

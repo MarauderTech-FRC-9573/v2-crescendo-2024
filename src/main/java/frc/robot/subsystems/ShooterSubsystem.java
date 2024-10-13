@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 public class ShooterSubsystem extends SubsystemBase {
   public final CANSparkMax bottomShooterMotor;
   public final CANSparkMax topShooterMotor;
-  public final DigitalInput beamBreaker = new DigitalInput(0); // arbitrary channel value chnage to actual value
+  //public final DigitalInput beamBreaker = new DigitalInput(0); // arbitrary channel value chnage to actual value
   
   public ShooterSubsystem() { 
     bottomShooterMotor = new CANSparkMax(7, MotorType.kBrushless);
@@ -30,16 +30,4 @@ public class ShooterSubsystem extends SubsystemBase {
     topShooterMotor.set(0);
   }
   
-  public void noteinPlace(CommandXboxController xboxController1, CommandXboxController xboxController2) {
-    GenericHID controller1 = xboxController1.getHID();
-    GenericHID controller2 = xboxController2.getHID();
-    if (!beamBreaker.get()) {
-      controller1.setRumble(RumbleType.kLeftRumble, 1.0);
-      controller2.setRumble(RumbleType.kRightRumble, 1.0);
-    } else {
-      controller1.setRumble(RumbleType.kLeftRumble, 0);
-      controller2.setRumble(RumbleType.kRightRumble, 0);
-    }
-    
-  }
 }

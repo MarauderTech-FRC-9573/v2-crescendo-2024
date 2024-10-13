@@ -14,7 +14,6 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.commands.LaunchAmp;
 import frc.robot.commands.LaunchSpeaker;
-import frc.robot.commands.NoteInPlace;
 import frc.robot.commands.Spoonfeeding;
 
 import static frc.robot.Constants.DriveConstants.precisionSpeed;
@@ -46,18 +45,17 @@ public class RobotContainer {
     //pdh.setSwitchableChannel(true);
     configureButtonBindings();
     driveSubsystem.setDefaultCommand(new RunCommand(() -> driveSubsystem.driveArcade(-driverController.getLeftY(), driverController.getRightX()), driveSubsystem));
-    shooterSubsystem.setDefaultCommand(new RunCommand(() -> shooterSubsystem.noteinPlace(driverController, operatorController), shooterSubsystem));
+    //intakeSubsystem.setDefaultCommand(new RunCommand(() -> intakeSubsystem.noteinPlace()));
     SmartDashboard.putData("Autos: ", m_autoChooser);
     
   }
   
   private void configureButtonBindings() {
-    operatorController.rightTrigger().whileTrue(new IntakeBack(intakeSubsystem).withTimeout(0.5).andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)));
+    operatorController.rightTrigger().whileTrue(new LaunchSpeaker(shooterSubsystem, intakeSubsystem));
     operatorController.leftTrigger().whileTrue(new IntakeBack(intakeSubsystem).withTimeout(0.5).andThen(new LaunchAmp(shooterSubsystem, intakeSubsystem)));
     operatorController.rightBumper().whileTrue(new IntakeBack(intakeSubsystem).withTimeout(0.5).andThen(new Spoonfeeding(shooterSubsystem, intakeSubsystem)));
     operatorController.x().whileTrue(new Intake(intakeSubsystem));
-    operatorController.y().whileTrue(new Eject(intakeSubsystem, shooterSubsystem));
-    
+    operatorController.y().whileTrue(new Eject(intakeSubsystem, shooterSubsystem));   
     // Set up a binding to run the intake command while the operator is pressing and holding the x button
     
     driverController.leftBumper()
@@ -75,7 +73,7 @@ public class RobotContainer {
     m_autoChooser.addOption("TAXI: ", 
     new WaitCommand(0.1)
     .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0.5, 0), driveSubsystem))
-    .withTimeout(3)
+    .withTimeout(1)
     .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0, 0), driveSubsystem)));
     
     m_autoChooser.setDefaultOption("SPEAKER, TAXI: ", 
@@ -83,7 +81,7 @@ public class RobotContainer {
     .andThen(new IntakeBack(intakeSubsystem))
     .withTimeout(0.5)
     .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem))
-    .withTimeout(4)
+    .withTimeout(2)
     .andThen(new RunCommand(() -> driveSubsystem.driveArcade(1.0, 0), driveSubsystem))
     .withTimeout(3)
     .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0, 0), driveSubsystem)));
@@ -93,15 +91,17 @@ public class RobotContainer {
     .andThen(new IntakeBack(intakeSubsystem))
     .withTimeout(0.5)
     .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)
-    .withTimeout(4))
-    .andThen(new AutoMoveIntake(driveSubsystem, intakeSubsystem, shooterSubsystem))
+    .withTimeout(2))
+    .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0.7, 0), driveSubsystem))
     .withTimeout(2)
+    .andThen(new Intake(intakeSubsystem))
+    .withTimeout(1)
     .andThen(new RunCommand(() -> driveSubsystem.driveArcade(-0.7, 0), driveSubsystem)
     .withTimeout(2))
     .andThen(new IntakeBack(intakeSubsystem))
     .withTimeout(0.5)
     .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem)
-    .withTimeout(4))
+    .withTimeout(2))
     .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0, 0), driveSubsystem)));
   }
   

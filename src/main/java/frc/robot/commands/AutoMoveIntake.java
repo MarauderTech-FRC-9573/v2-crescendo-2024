@@ -23,10 +23,12 @@ public class AutoMoveIntake extends Command {
         this.driveSubsystem = driveSubsystem;
         this.intakeSubsystem = intakeSubsystem;
         this.shooterSubsystem = shooterSubsystem;
+        intakeMotor = intakeSubsystem.intakeMotor;
     }
     
     @Override
     public void initialize() {
+        System.out.println("bruh wtffff");
         
     }
     
