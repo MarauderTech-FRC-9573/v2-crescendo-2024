@@ -19,10 +19,9 @@ public class AutoMoveIntake extends Command {
     CANSparkMax intakeMotor;
     DigitalInput beamBreaker;
     
-    public AutoMoveIntake(DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
+    public AutoMoveIntake(DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem) {
         this.driveSubsystem = driveSubsystem;
         this.intakeSubsystem = intakeSubsystem;
-        this.shooterSubsystem = shooterSubsystem;
         intakeMotor = intakeSubsystem.intakeMotor;
     }
     
@@ -34,7 +33,7 @@ public class AutoMoveIntake extends Command {
     
     @Override
     public void execute() {
-        driveSubsystem.driveArcade(0.7, 0);
+        driveSubsystem.driveArcade(0.5, 0);
         intakeMotor.set(intakingSpeed);
     }
 
@@ -42,7 +41,11 @@ public class AutoMoveIntake extends Command {
     public void end(boolean isInterrupted) {
         driveSubsystem.driveArcade(0, 0);
         intakeSubsystem.stop();
-        shooterSubsystem.stop();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return !beamBreaker.get();
     }
     
 }

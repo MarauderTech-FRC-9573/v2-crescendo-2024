@@ -84,29 +84,50 @@ public class RobotContainer {
     .withTimeout(0.5)
     .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem))
     .withTimeout(2)
-    .andThen(new RunCommand(() -> driveSubsystem.driveArcade(1.0, 0), driveSubsystem))
+    .andThen(new RunCommand(() -> driveSubsystem.driveArcade(-0.8, 0), driveSubsystem))
     .withTimeout(3)
-    .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0, 0), driveSubsystem)));
+    .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0, 0), driveSubsystem))
+    );
     
-    m_autoChooser.addOption("2 NOTE:", 
+   /* m_autoChooser.addOption("2 NOTE:", 
     new WaitCommand(0.1)
     .andThen(new IntakeBack(intakeSubsystem))
     .withTimeout(0.5)
     .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem))
     .withTimeout(2)
-    .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0.7, 0), driveSubsystem))
-    .withTimeout(2)
+    .andThen(new RunCommand(() -> driveSubsystem.driveArcade(-0.4, 0), driveSubsystem))
+    .withTimeout(3)
+    .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0, 0), driveSubsystem))
+    .withTimeout(0.1)
     .andThen(new Intake(intakeSubsystem))
     .withTimeout(1)
-    .andThen(new RunCommand(() -> driveSubsystem.driveArcade(-0.7, 0), driveSubsystem))
-    .withTimeout(2)
-    .andThen(new IntakeBack(intakeSubsystem))
-    .withTimeout(0.5)
-    .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem))
+    .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0.5, 0), driveSubsystem))
     .withTimeout(2)
     .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0, 0), driveSubsystem))
+    .withTimeout(0.1)
+    .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem))
+    .withTimeout(2)
+    ); */
+
+    m_autoChooser.addOption("2 NOTE: ", 
+    new WaitCommand(0.1)
+      .andThen(new IntakeBack(intakeSubsystem))
+      .withTimeout(0.5)
+      .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem))
+      .withTimeout(2)
+      .andThen(new RunCommand(() -> driveSubsystem.driveArcade(-0.4, 0), driveSubsystem))
+      .withTimeout(1)
+      // .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0, 0), driveSubsystem))
+      // .andThen(new RunCommand(() -> intakeSubsystem.turnON(), intakeSubsystem))
+      // .withTimeout(2)
+      // .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0.4, 0), driveSubsystem))
+      // .withTimeout(3)
+      // .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0, 0), driveSubsystem))
+      // .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem))
+      // .withTimeout(2)
     );
-  }
+
+  } 
   
   private Object LaunchSpeaker(ShooterSubsystem shooterSubsystem2) {
     // TODO Auto-generated method stub

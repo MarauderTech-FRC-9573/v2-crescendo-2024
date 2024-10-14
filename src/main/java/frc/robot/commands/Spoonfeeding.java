@@ -36,7 +36,7 @@ public class Spoonfeeding extends Command {
 
     @Override
     public void execute() {
-        if (topEncoder.getVelocity() > 750 && bottomEncoder.getVelocity() > 550) {
+        if (topEncoder.getVelocity() > 850 && bottomEncoder.getVelocity() > 650) {
             intakeMotor.set(0.7);
         }
     }

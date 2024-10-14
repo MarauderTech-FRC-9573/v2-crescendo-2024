@@ -41,6 +41,13 @@ public class IntakeSubsystem extends SubsystemBase {
       controller1.setRumble(RumbleType.kLeftRumble, 0);
       controller2.setRumble(RumbleType.kRightRumble, 0);
     }
+    }
     
-  }
+    public void turnON() {
+        if (!beamBreaker.get()) {
+          intakeMotor.set(0);
+      } else {
+          intakeMotor.set(intakingSpeed);
+      }
+    }
 }
