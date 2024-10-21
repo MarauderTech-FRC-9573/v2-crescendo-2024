@@ -1,24 +1,9 @@
 package frc.robot.subsystems;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import static frc.robot.Constants.DriveConstants.*;
-import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.Volts;
-// Simulation libraries
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.DigitalSource;
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 import com.revrobotics.CANSparkMax;
@@ -37,31 +22,15 @@ public class DriveSubsystem extends SubsystemBase {
     different method calls. */
     DifferentialDrive m_drivetrain;
     
-    public static final double kMaxSpeed = 3.0; // meters per second
-    public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
-    private static final double kTrackWidth = 0.381 * 2; // meters UPDATE THIS VALUE
-    private static final double kWheelRadius = 0.0507; // meters
-    private static final int kEncoderResolution = 4096; // encoder ticks per revolution UPDATE THIS VALUE
     
     private final CANSparkMax leftFront = new CANSparkMax(kLeftFrontID, CANSparkLowLevel.MotorType.kBrushed);
     private final CANSparkMax leftRear = new CANSparkMax(kLeftRearID, CANSparkLowLevel.MotorType.kBrushed);
     private final CANSparkMax rightFront = new CANSparkMax(kRightFrontID, CANSparkLowLevel.MotorType.kBrushed);
     private final CANSparkMax rightRear = new CANSparkMax(kRightRearID, CANSparkLowLevel.MotorType.kBrushed);
     
-    private DigitalSource[] kLeftLeadEncoderPorts;
-    
-    private final Encoder driveLeftEncoder = new Encoder(5, 6);
-    private final Encoder driveRightEncoder = new Encoder(7, 8);
-    
-    private final PIDController m_leftPIDController = new PIDController(1, 0, 0);
-    private final PIDController m_rightPIDController = new PIDController(1, 0, 0);
-    
-    private final DifferentialDriveKinematics m_kinematics = new DifferentialDriveKinematics(kTrackWidth);
-    
     // private final DifferentialDriveOdometry m_odometry;
     
     // Gains are for example purposes only - must be determined for your own robot!
-    private final SimpleMotorFeedforward m_feedforward = new SimpleMotorFeedforward(1, 3);
     
     // Gyroscope
     private final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
@@ -118,11 +87,7 @@ public class DriveSubsystem extends SubsystemBase {
         public void periodic() {
             
             // Get the rotation of the robot from the gyro.
-            var gyroAngle = m_gyro.getRotation2d();
-            
-            SmartDashboard.putNumber("Left Encoder Value: ", driveLeftEncoder.getDistance());
-            SmartDashboard.putNumber("Right Encoder Value: ", driveRightEncoder.getDistance());
-            
+                        
             // Update the pose
             // m_pose = m_odometry.update(gyroAngle,
             // driveLeftEncoder.getDistance(),
@@ -154,8 +119,4 @@ public class DriveSubsystem extends SubsystemBase {
                 
             }
             
-            public void driveSet(int setpoint) {
-                leftFront.set(m_leftPIDController.calculate(driveLeftEncoder.getDistance(),setpoint));
-                rightFront.set(m_rightPIDController.calculate(driveRightEncoder.getDistance(), setpoint));
-            }
-            }
+        }

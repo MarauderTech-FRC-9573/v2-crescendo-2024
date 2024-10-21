@@ -8,9 +8,7 @@ import com.revrobotics.CANSparkLowLevel;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class IntakeSubsystem extends SubsystemBase { 
@@ -35,11 +33,12 @@ public class IntakeSubsystem extends SubsystemBase {
       GenericHID controller1 = xboxController1.getHID();
       GenericHID controller2 = xboxController2.getHID();
     if (!beamBreaker.get()) {
-      controller1.setRumble(RumbleType.kLeftRumble, 1.0);
-      controller2.setRumble(RumbleType.kRightRumble, 1.0);
+      controller1.setRumble(RumbleType.kBothRumble, 1.0);
+
+      controller2.setRumble(RumbleType.kBothRumble, 1.0);
     } else {
-      controller1.setRumble(RumbleType.kLeftRumble, 0);
-      controller2.setRumble(RumbleType.kRightRumble, 0);
+      controller1.setRumble(RumbleType.kBothRumble, 0);
+      controller2.setRumble(RumbleType.kBothRumble, 0);
     }
     }
     
