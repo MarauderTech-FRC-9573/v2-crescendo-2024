@@ -5,14 +5,11 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.Intake;
 import frc.robot.commands.IntakeBack;
-import frc.robot.commands.AutoMoveIntake;
 import frc.robot.commands.Eject;
 import frc.robot.commands.ForceIntake;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.IntakeConstants;
 import frc.robot.commands.LaunchAmp;
 import frc.robot.commands.LaunchSpeaker;
 import frc.robot.commands.Spoonfeeding;
@@ -22,7 +19,6 @@ import static frc.robot.Constants.DriveConstants.turboSpeed;
 import static frc.robot.Constants.DriveConstants.defaultSpeed;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -128,12 +124,7 @@ public class RobotContainer {
     );
 
   } 
-  
-  private Object LaunchSpeaker(ShooterSubsystem shooterSubsystem2) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'LaunchSpeaker'");
-  }
-  
+    
   public Command getAutonomousCommand() {
     return m_autoChooser.getSelected();
     
