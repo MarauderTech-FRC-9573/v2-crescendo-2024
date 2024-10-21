@@ -111,7 +111,7 @@ public class RobotContainer {
       .withTimeout(0.5)
       .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem))
       .withTimeout(2)
-      .andThen(new AutoMoveIntake(driveSubsystem, intakeSubsystem))
+      //.andThen(new AutoMoveIntake(driveSubsystem, intakeSubsystem))
       .withTimeout(3)
       // .andThen(new RunCommand(() -> driveSubsystem.driveArcade(0.4, 0), driveSubsystem))
       // .andThen(new IntakeBack(intakeSubsystem))
