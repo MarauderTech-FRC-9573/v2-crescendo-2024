@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import static frc.robot.Constants.IntakeConstants.intakingSpeed;
 import static frc.robot.Constants.IntakeConstants.launchSpeed;
 
 import com.revrobotics.CANSparkMax;

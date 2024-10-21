@@ -17,7 +17,6 @@ public class LaunchAmp extends Command {
     private IntakeSubsystem intakeSubsystem;
     private CANSparkMax intake;
     Timer timer;
-    private boolean isRunning;
     
     public LaunchAmp(ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
         this.shooterSubsystem = shooterSubsystem;

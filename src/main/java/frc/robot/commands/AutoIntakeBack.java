@@ -1,9 +1,6 @@
 package frc.robot.commands;
 
-import static frc.robot.Constants.IntakeConstants.intakingSpeed;
 import static frc.robot.Constants.IntakeConstants.launchSpeed;
-import java.util.*;
-
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -35,8 +32,6 @@ public class AutoIntakeBack extends Command {
     @Override
     public boolean isFinished() {
         timer++;
-
-        //if (timer = )
         return true;
     }
 }
