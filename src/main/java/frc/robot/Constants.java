@@ -82,10 +82,10 @@ public final class Constants {
     // Intake Constants
     public static final class IntakeConstants {
       
-      public static final double intakingSpeed = 0.50;
-      public static final double ejectingSpeed = -0.50;
+      public static final double intakingSpeed = -0.50;
+      public static final double ejectingSpeed = 0.50;
       public static final double stoppingSpeed = 0.00;
-      public static final double launchSpeed = -0.2;
+      public static final double launchSpeed = 0.2;
 
       public static final int kIntakeCurrentLimit = 40;
       
