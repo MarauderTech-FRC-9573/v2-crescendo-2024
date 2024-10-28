@@ -2,8 +2,11 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import static frc.robot.Constants.DriveConstants.*;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 import com.revrobotics.CANSparkMax;
@@ -28,6 +31,9 @@ public class DriveSubsystem extends SubsystemBase {
     private final CANSparkMax rightFront = new CANSparkMax(kRightFrontID, CANSparkLowLevel.MotorType.kBrushed);
     private final CANSparkMax rightRear = new CANSparkMax(kRightRearID, CANSparkLowLevel.MotorType.kBrushed);
     
+    private final Encoder encoder = new Encoder(1, 2);
+    private final PIDController pid; 
+
     // private final DifferentialDriveOdometry m_odometry;
     
     // Gains are for example purposes only - must be determined for your own robot!
@@ -54,7 +60,15 @@ public class DriveSubsystem extends SubsystemBase {
         leftFront.setInverted(false);
         rightFront.setInverted(true);
 
-        
+        //pid controller configs
+        double kProportional = 0;
+        double kIntegral = 0;
+        double kDerivative = 0;
+        pid = new PIDController(kProportional, kIntegral, kDerivative);
+    
+        pid.setTolerance(0.5, 0.5);
+        pid.setIntegratorRange(-0.5, 0.5); //config values to prevent overshooting from setpoint
+
         // Put the front motors into the differential drive object. This will control all 4 motors with
         // the rears set to follow the fronts
         m_drivetrain = new DifferentialDrive(leftFront, rightFront);
@@ -81,6 +95,12 @@ public class DriveSubsystem extends SubsystemBase {
         //     var wheelSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(speed, 0.0, rotation));
         //     setSpeeds(wheelSpeeds);
         // }
+        public void drive(double speed, double rotation) {
+
+            // TODO: this should be run periodically
+            leftFront.set(pid.calculate(encoder.getDistance(), pid.getSetpoint()));
+            rightFront.set(pid.calculate(encoder.getDistance(), pid.getSetpoint()));
+        }
         
         
         @Override
