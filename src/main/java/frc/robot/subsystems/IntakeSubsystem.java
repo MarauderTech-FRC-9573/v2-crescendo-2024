@@ -34,7 +34,7 @@ public class IntakeSubsystem extends SubsystemBase {
     GenericHID controller1 = xboxController1.getHID();
     GenericHID controller2 = xboxController2.getHID();
     if (!beamBreaker.get()) {
-      Thread pattern = new Thread(new RumblePattern(controller1, controller2));
+      new Thread(new RumblePattern(controller1, controller2));
     } else {
       controller1.setRumble(RumbleType.kBothRumble, 0);
       controller2.setRumble(RumbleType.kBothRumble, 0);

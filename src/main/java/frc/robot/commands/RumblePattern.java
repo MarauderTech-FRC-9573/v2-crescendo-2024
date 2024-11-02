@@ -18,10 +18,10 @@ public class RumblePattern extends Command implements Runnable {
     public void execute() {
         controller1.setRumble(RumbleType.kBothRumble, 0.5);
         controller2.setRumble(RumbleType.kBothRumble, 0.5);
-        new WaitCommand(1);
+        new WaitCommand(0.5);
         controller1.setRumble(RumbleType.kBothRumble, 0);
         controller2.setRumble(RumbleType.kBothRumble, 0);      
-
+        new WaitCommand(0.5);
     }
 
     @Override
