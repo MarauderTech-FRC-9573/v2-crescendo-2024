@@ -110,6 +110,10 @@ public class DriveSubsystem extends SubsystemBase {
         SmartDashboard.putBoolean("le2", le2.get());
         SmartDashboard.putBoolean("re1", re1.get());
         SmartDashboard.putBoolean("re2", re2.get());
+        System.out.println("le1" + le1.get());
+        System.out.println("le2" + le2.get());
+        System.out.println("re1" + re1.get());
+        System.out.println("re2" + re2.get());
 
     }
     
