@@ -76,7 +76,7 @@ public class DriveSubsystem extends SubsystemBase {
         // Invert the left side so both side drive forward with positive motor outputs
         leftFront.setInverted(false);
         rightFront.setInverted(true);
-        ///asdfasdf
+        
         //pid controller configs
         double kProportional = 0;
         double kIntegral = 0;
