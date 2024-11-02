@@ -4,10 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.util.Units;
-
 public final class Constants {
   
   public static final class DriveConstants {
@@ -59,20 +55,6 @@ public final class Constants {
     
   }
   
-  
-  // public static final class ShooterConstants {
-    
-    //   public static double kIntakeLauncherSpeed = -3.0;
-    //   public static double kIntakeFeederSpeed = -3.0;
-    //   public static int launchWheelPort = 6;
-    //   public static int intakeWheelPort = 7;
-    //   public static double AmpLaunchWheelSpeed = 3.0;
-    //   public static double AmpFeedWheelSpeed = 3.0;
-    //   public static double SpeakerLaunchWheelSpeed = 6.0;
-    //   public static double SpeakerFeedWheelSpeed = 6.0;
-    
-    
-    // }q2
     
     // Intake Constants
     public static final class IntakeConstants {
@@ -85,16 +67,7 @@ public final class Constants {
       public static final int kIntakeCurrentLimit = 40;
       
     }
-    
-    // OI constants
-    public static final class OIConstants {    
-      
-    }
-        
-    public static class FieldConstants {
-      public static final double kFieldLength = 4.0;
-      public static final double kFieldWidth = 3.0;
-    }
+            
     
     public static final class ShooterConstants {
       
