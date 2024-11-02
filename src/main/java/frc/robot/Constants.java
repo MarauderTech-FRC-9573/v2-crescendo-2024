@@ -53,6 +53,17 @@ public final class Constants {
     public static double precisionSpeed = 0.2;
     public static double defaultSpeed = 0.8;
     public static double turboSpeed = 1.0;
+
+    public static final boolean kLeftEncoderReversed = false;
+    public static final boolean kRightEncoderReversed = true;
+    
+    //Encoder stuff
+    public static final int kEncoderCPR = 1024;
+    public static final double kEncoderDistancePerPulse = (kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR;
+
+    public static int[] kLeftLeadEncoderPorts = {1, 7};
+    public static int[] kRightLeadEncoderPorts = {2, 9};
+
     
     
     

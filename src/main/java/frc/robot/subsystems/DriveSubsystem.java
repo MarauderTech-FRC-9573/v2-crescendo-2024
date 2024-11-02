@@ -5,9 +5,11 @@ import static frc.robot.Constants.DriveConstants.*;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel;
@@ -31,10 +33,13 @@ public class DriveSubsystem extends SubsystemBase {
     private final CANSparkMax rightFront = new CANSparkMax(kRightFrontID, CANSparkLowLevel.MotorType.kBrushed);
     private final CANSparkMax rightRear = new CANSparkMax(kRightRearID, CANSparkLowLevel.MotorType.kBrushed);
     
-    private final Encoder encoder = new Encoder(1, 2);
+    private final Encoder driveLeftEncoder = new Encoder(DriveConstants.kLeftLeadEncoderPorts[0], DriveConstants.kLeftLeadEncoderPorts[1], DriveConstants.kLeftEncoderReversed);
+    private final Encoder driveRightEncoder = new Encoder(DriveConstants.kRightLeadEncoderPorts[0], DriveConstants.kRightLeadEncoderPorts[1], DriveConstants.kRightEncoderReversed);
+    
+    // PID
     private final PIDController pid; 
 
-    // private final DifferentialDriveOdometry m_odometry;
+    private final DifferentialDriveOdometry m_odometry;
     
     // Gains are for example purposes only - must be determined for your own robot!
     
@@ -73,9 +78,9 @@ public class DriveSubsystem extends SubsystemBase {
         // the rears set to follow the fronts
         m_drivetrain = new DifferentialDrive(leftFront, rightFront);
         
-        // m_odometry =
-        // new DifferentialDriveOdometry(
-        //     m_gyro.getRotation2d(), driveLeftEncoder.getDistance(), driveRightEncoder.getDistance());
+        m_odometry =
+        new DifferentialDriveOdometry(
+            m_gyro.getRotation2d(), driveLeftEncoder.getDistance(), driveRightEncoder.getDistance());
         
         m_drivetrain.setMaxOutput(DriveConstants.defaultSpeed);
     }
@@ -86,6 +91,9 @@ public class DriveSubsystem extends SubsystemBase {
     * and a rotation about the Z (turning the robot about it's center) and uses these to control the drivetrain motors */
     public void driveArcade(double speed, double rotation) {
         m_drivetrain.arcadeDrive(speed, rotation);
+        SmartDashboard.putNumber("Left Encoder: ", driveLeftEncoder.getRate());
+        SmartDashboard.putNumber("Right Encoder: ", driveRightEncoder.getRate());
+
     }
     
     /** 
@@ -95,24 +103,24 @@ public class DriveSubsystem extends SubsystemBase {
         //     var wheelSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(speed, 0.0, rotation));
         //     setSpeeds(wheelSpeeds);
         // }
-        public void drive(double speed, double rotation) {
+        /*public void drive(double speed, double rotation) {
 
             // TODO: this should be run periodically
             leftFront.set(pid.calculate(encoder.getDistance(), pid.getSetpoint()));
             rightFront.set(pid.calculate(encoder.getDistance(), pid.getSetpoint()));
-        }
+        } */
         
         
         @Override
         public void periodic() {
             
-            // Get the rotation of the robot from the gyro.
-                        
+            var gyroAngle = m_gyro.getRotation2d();
+        
             // Update the pose
-            // m_pose = m_odometry.update(gyroAngle,
-            // driveLeftEncoder.getDistance(),
-            // driveRightEncoder.getDistance());
-            // SmartDashboard.putNumber("Gyro ", this.getHeading());
+            m_pose = m_odometry.update(gyroAngle,
+            driveLeftEncoder.getDistance(),
+            driveRightEncoder.getDistance());
+            SmartDashboard.putNumber("Gyro ", this.getHeading());
             
         }
         
