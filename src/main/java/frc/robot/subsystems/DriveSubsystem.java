@@ -35,17 +35,17 @@ public class DriveSubsystem extends SubsystemBase {
     private final CANSparkMax rightFront = new CANSparkMax(kRightFrontID, CANSparkLowLevel.MotorType.kBrushed);
     private final CANSparkMax rightRear = new CANSparkMax(kRightRearID, CANSparkLowLevel.MotorType.kBrushed);
     
-    //private final Encoder driveLeftEncoder = new Encoder(DriveConstants.kLeftLeadEncoderPorts[0], DriveConstants.kLeftLeadEncoderPorts[1], DriveConstants.kLeftEncoderReversed);
-    //private final Encoder driveRightEncoder = new Encoder(DriveConstants.kRightLeadEncoderPorts[0], DriveConstants.kRightLeadEncoderPorts[1], DriveConstants.kRightEncoderReversed);
-    private final DigitalInput le1 = new DigitalInput(DriveConstants.kLeftLeadEncoderPorts[0]);
-    private final DigitalInput le2 = new DigitalInput(DriveConstants.kLeftLeadEncoderPorts[1]);
-    private final DigitalInput re1 = new DigitalInput(DriveConstants.kRightLeadEncoderPorts[0]);
-    private final DigitalInput re2 = new DigitalInput(DriveConstants.kRightLeadEncoderPorts[1]);
+    private final Encoder driveLeftEncoder = new Encoder(DriveConstants.kLeftLeadEncoderPorts[0], DriveConstants.kLeftLeadEncoderPorts[1], DriveConstants.kLeftEncoderReversed);
+    private final Encoder driveRightEncoder = new Encoder(DriveConstants.kRightLeadEncoderPorts[0], DriveConstants.kRightLeadEncoderPorts[1], DriveConstants.kRightEncoderReversed);
+    //private final DigitalInput le1 = new DigitalInput(DriveConstants.kLeftLeadEncoderPorts[0]);
+    //private final DigitalInput le2 = new DigitalInput(DriveConstants.kLeftLeadEncoderPorts[1]);
+    //private final DigitalInput re1 = new DigitalInput(DriveConstants.kRightLeadEncoderPorts[0]);
+    //private final DigitalInput re2 = new DigitalInput(DriveConstants.kRightLeadEncoderPorts[1]);
 
     // PID
     private final PIDController pid; 
 
-    //private final DifferentialDriveOdometry m_odometry;
+    private final DifferentialDriveOdometry m_odometry;
     
     // Gains are for example purposes only - must be determined for your own robot!
     
@@ -63,11 +63,11 @@ public class DriveSubsystem extends SubsystemBase {
         rightFront.setSmartCurrentLimit(kDriveCurrentLimit);
         rightRear.setSmartCurrentLimit(kDriveCurrentLimit);
 
-        //driveLeftEncoder.setDistancePerPulse(Constants.DriveConstants.kEncoderDistancePerPulse);
-        //driveRightEncoder.setDistancePerPulse(Constants.DriveConstants.kEncoderDistancePerPulse);
+        driveLeftEncoder.setDistancePerPulse(Constants.DriveConstants.kEncoderDistancePerPulse);
+        driveRightEncoder.setDistancePerPulse(Constants.DriveConstants.kEncoderDistancePerPulse);
     
-        //driveLeftEncoder.reset();
-        //driveRightEncoder.reset();
+        driveLeftEncoder.reset();
+        driveRightEncoder.reset();
         
         // Set the rear motors to follow the front motors.
         leftRear.follow(leftFront);
@@ -90,9 +90,9 @@ public class DriveSubsystem extends SubsystemBase {
         // the rears set to follow the fronts
         m_drivetrain = new DifferentialDrive(leftFront, rightFront);
         
-        //m_odometry =
-        //new DifferentialDriveOdometry(
-           //m_gyro.getRotation2d(), driveLeftEncoder.getDistance(), driveRightEncoder.getDistance());
+        m_odometry =
+        new DifferentialDriveOdometry(
+           m_gyro.getRotation2d(), driveLeftEncoder.getDistance(), driveRightEncoder.getDistance());
         
         m_drivetrain.setMaxOutput(DriveConstants.defaultSpeed);
     }
@@ -103,13 +103,13 @@ public class DriveSubsystem extends SubsystemBase {
     * and a rotation about the Z (turning the robot about it's center) and uses these to control the drivetrain motors */
     public void driveArcade(double speed, double rotation) {
         m_drivetrain.arcadeDrive(speed, rotation);
-        //SmartDashboard.putNumber("Left Encoder: ", driveLeftEncoder.getRate());
-        //SmartDashboard.putNumber("Right Encoder: ", driveRightEncoder.getRate());
+        SmartDashboard.putNumber("Left Encoder: ", driveLeftEncoder.getDistance());
+        SmartDashboard.putNumber("Right Encoder: ", driveRightEncoder.getDistance());
         
-        SmartDashboard.putBoolean("le1", le1.get());
-        SmartDashboard.putBoolean("le2", le2.get());
-        SmartDashboard.putBoolean("re1", re1.get());
-        SmartDashboard.putBoolean("re2", re2.get());
+        // SmartDashboard.putBoolean("le1", le1.get());
+        // SmartDashboard.putBoolean("le2", le2.get());
+        // SmartDashboard.putBoolean("re1", re1.get());
+        // SmartDashboard.putBoolean("re2", re2.get());
 
     }
     
