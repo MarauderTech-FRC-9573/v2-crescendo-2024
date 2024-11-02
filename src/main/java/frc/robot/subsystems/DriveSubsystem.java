@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,7 +37,11 @@ public class DriveSubsystem extends SubsystemBase {
     
     private final Encoder driveLeftEncoder = new Encoder(DriveConstants.kLeftLeadEncoderPorts[0], DriveConstants.kLeftLeadEncoderPorts[1], DriveConstants.kLeftEncoderReversed);
     private final Encoder driveRightEncoder = new Encoder(DriveConstants.kRightLeadEncoderPorts[0], DriveConstants.kRightLeadEncoderPorts[1], DriveConstants.kRightEncoderReversed);
-    
+    private final DigitalInput le1 = new DigitalInput(DriveConstants.kLeftLeadEncoderPorts[0]);
+    private final DigitalInput le2 = new DigitalInput(DriveConstants.kLeftLeadEncoderPorts[1]);
+    private final DigitalInput re1 = new DigitalInput(DriveConstants.kRightLeadEncoderPorts[0]);
+    private final DigitalInput re2 = new DigitalInput(DriveConstants.kRightLeadEncoderPorts[1]);
+
     // PID
     private final PIDController pid; 
 
@@ -100,6 +105,11 @@ public class DriveSubsystem extends SubsystemBase {
         m_drivetrain.arcadeDrive(speed, rotation);
         SmartDashboard.putNumber("Left Encoder: ", driveLeftEncoder.getRate());
         SmartDashboard.putNumber("Right Encoder: ", driveRightEncoder.getRate());
+        
+        SmartDashboard.putBoolean("le1", le1.get());
+        SmartDashboard.putBoolean("le2", le2.get());
+        SmartDashboard.putBoolean("re1", re1.get());
+        SmartDashboard.putBoolean("re2", re2.get());
 
     }
     
