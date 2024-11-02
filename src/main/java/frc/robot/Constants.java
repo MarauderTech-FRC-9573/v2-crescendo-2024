@@ -61,6 +61,7 @@ public final class Constants {
     public static final int kEncoderCPR = 1024;
     public static final double kEncoderDistancePerPulse = (kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR;
 
+    //Direction relative opposite battery side, where viewpoint aligned with shooter. Left is the side with the RSL.
     public static int[] kLeftLeadEncoderPorts = {3, 4};
     public static int[] kRightLeadEncoderPorts = {1, 2};
 
