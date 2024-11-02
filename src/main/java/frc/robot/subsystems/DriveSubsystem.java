@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 import static frc.robot.Constants.DriveConstants.*;
 
@@ -56,6 +57,12 @@ public class DriveSubsystem extends SubsystemBase {
         leftRear.setSmartCurrentLimit(kDriveCurrentLimit);
         rightFront.setSmartCurrentLimit(kDriveCurrentLimit);
         rightRear.setSmartCurrentLimit(kDriveCurrentLimit);
+
+        driveLeftEncoder.setDistancePerPulse(Constants.DriveConstants.kEncoderDistancePerPulse);
+        driveRightEncoder.setDistancePerPulse(Constants.DriveConstants.kEncoderDistancePerPulse);
+    
+        driveLeftEncoder.reset();
+        driveRightEncoder.reset();
         
         // Set the rear motors to follow the front motors.
         leftRear.follow(leftFront);
