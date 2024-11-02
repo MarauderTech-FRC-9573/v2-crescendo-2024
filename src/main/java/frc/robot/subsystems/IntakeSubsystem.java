@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 import static frc.robot.Constants.IntakeConstants.*;
 
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel;
 
@@ -11,6 +10,7 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.RumblePattern;
 
 public class IntakeSubsystem extends SubsystemBase { 
   public final CANSparkMax intakeMotor;
@@ -34,13 +34,7 @@ public class IntakeSubsystem extends SubsystemBase {
     GenericHID controller1 = xboxController1.getHID();
     GenericHID controller2 = xboxController2.getHID();
     if (!beamBreaker.get()) {
-      while (!beamBreaker.get()) {
-        controller1.setRumble(RumbleType.kBothRumble, 0.5);
-        controller2.setRumble(RumbleType.kBothRumble, 0.5);
-        new WaitCommand(1);
-        controller1.setRumble(RumbleType.kBothRumble, 0);
-        controller2.setRumble(RumbleType.kBothRumble, 0);      
-      }
+      Thread pattern = new Thread(new RumblePattern(controller1, controller2));
     } else {
       controller1.setRumble(RumbleType.kBothRumble, 0);
       controller2.setRumble(RumbleType.kBothRumble, 0);
@@ -54,4 +48,5 @@ public class IntakeSubsystem extends SubsystemBase {
       intakeMotor.set(intakingSpeed);
     }
   }
+
 }
