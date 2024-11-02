@@ -61,8 +61,8 @@ public final class Constants {
     public static final int kEncoderCPR = 1024;
     public static final double kEncoderDistancePerPulse = (kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR;
 
-    public static int[] kLeftLeadEncoderPorts = {1, 7};
-    public static int[] kRightLeadEncoderPorts = {2, 9};
+    public static int[] kLeftLeadEncoderPorts = {3, 4};
+    public static int[] kRightLeadEncoderPorts = {1, 2};
 
     
     
