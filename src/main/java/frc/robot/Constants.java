@@ -43,12 +43,24 @@ public final class Constants {
     public static final double kvVoltSecondsPerRadian = 1.5;
     public static final double kaVoltSecondsSquaredPerRadian = 0.3;
     
-    public static double kWheelDiameterMeters = 0.15;
+    public static double kWheelDiameterMeters = 0.13;
     
     // default speed of the robot
     public static double precisionSpeed = 0.2;
     public static double defaultSpeed = 0.8;
     public static double turboSpeed = 1.0;
+
+    public static final boolean kLeftEncoderReversed = false;
+    public static final boolean kRightEncoderReversed = true;
+    
+    //Encoder stuff
+    public static final int kEncoderCPR = 256;
+    public static final double kEncoderDistancePerPulse = (kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR;
+
+    //Direction relative opposite battery side, where viewpoint aligned with shooter. Left is the side with the RSL.
+    public static int[] kLeftLeadEncoderPorts = {3, 4};
+    public static int[] kRightLeadEncoderPorts = {1, 2};
+
     
     
     
