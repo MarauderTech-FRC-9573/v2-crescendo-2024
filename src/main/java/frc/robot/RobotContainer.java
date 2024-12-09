@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.*;
+
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.DriveSubsystem;
@@ -10,12 +12,16 @@ import frc.robot.commands.IntakeBack;
 import frc.robot.commands.Eject;
 import frc.robot.commands.ForceIntake;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.commands.LaunchAmp;
-import frc.robot.commands.LaunchSpeaker;
-import frc.robot.commands.Spoonfeeding;
+import frc.robot.commands.Launch;
 
 import static frc.robot.Constants.DriveConstants.precisionSpeed;
 import static frc.robot.Constants.DriveConstants.turboSpeed;
+import static frc.robot.Constants.IntakeConstants.intakingSpeed;
+import static frc.robot.Constants.ShooterConstants.kAmpSpeedBottom;
+import static frc.robot.Constants.ShooterConstants.kAmpSpeedTop;
+import static frc.robot.Constants.ShooterConstants.kSpeakerSpeed;
+import static frc.robot.Constants.ShooterConstants.kSpoonSpeedBottom;
+import static frc.robot.Constants.ShooterConstants.kSpoonSpeedTop;
 import static frc.robot.Constants.DriveConstants.defaultSpeed;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -48,9 +54,16 @@ public class RobotContainer {
   }
   
   private void configureButtonBindings() {
-    operatorController.rightTrigger().whileTrue(new LaunchSpeaker(shooterSubsystem, intakeSubsystem));
-    operatorController.leftTrigger().whileTrue(new IntakeBack(intakeSubsystem).withTimeout(0.5).andThen(new LaunchAmp(shooterSubsystem, intakeSubsystem)));
-    operatorController.rightBumper().whileTrue(new IntakeBack(intakeSubsystem).withTimeout(0.5).andThen(new Spoonfeeding(shooterSubsystem, intakeSubsystem)));
+    
+    // Launch Speaker
+    operatorController.rightTrigger().whileTrue(new Launch(shooterSubsystem, intakeSubsystem, kSpeakerSpeed, kSpeakerSpeed, intakingSpeed));
+    
+    // Launch Amp
+    operatorController.leftTrigger().whileTrue(new Launch(shooterSubsystem, intakeSubsystem, kAmpSpeedTop, kAmpSpeedBottom, intakingSpeed));
+    
+    // Launch SpoonFeeding
+    operatorController.rightBumper().whileTrue(new Launch(shooterSubsystem, intakeSubsystem, kSpoonSpeedTop, kSpoonSpeedBottom, intakingSpeed));
+    
     operatorController.x().whileTrue(new Intake(intakeSubsystem));
     operatorController.y().whileTrue(new Eject(intakeSubsystem, shooterSubsystem));   
     operatorController.leftBumper().whileTrue(new ForceIntake(intakeSubsystem));
@@ -78,7 +91,7 @@ public class RobotContainer {
     new WaitCommand(0.1)
     .andThen(new IntakeBack(intakeSubsystem))
     .withTimeout(0.5)
-    .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem))
+    .andThen(new Launch(shooterSubsystem, intakeSubsystem, kSpeakerSpeed, kSpeakerSpeed, intakingSpeed))
     .withTimeout(2)
     .andThen(new RunCommand(() -> driveSubsystem.driveArcade(-0.8, 0), driveSubsystem))
     .withTimeout(3)
@@ -109,7 +122,7 @@ public class RobotContainer {
     new WaitCommand(0.1)
       .andThen(new IntakeBack(intakeSubsystem))
       .withTimeout(0.5)
-      .andThen(new LaunchSpeaker(shooterSubsystem, intakeSubsystem))
+      .andThen(new Launch(shooterSubsystem, intakeSubsystem, kSpeakerSpeed, kSpeakerSpeed, intakingSpeed))
       .withTimeout(2)
       //.andThen(new AutoMoveIntake(driveSubsystem, intakeSubsystem))
       .withTimeout(3)

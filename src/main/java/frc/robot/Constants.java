@@ -74,9 +74,13 @@ public final class Constants {
       // Speeds for wheels when intaking and launching. Intake speeds are negative to run the wheels
       // in reverse
       public static final double kSpeakerSpeed = 0.7; //Speed of shooting into speaker. both top and bottom flywheels run at the same speed 
+      
       public static final double kAmpSpeedTop = 0.1; //Speed of shooting into the amp, running the top wheels
       public static final double kAmpSpeedBottom = 0.30; //Speed of shooting into the amp, running the bottom wheels
       
+      public static final double kSpoonSpeedTop = 0.8;
+      public static final double kSpoonSpeedBottom = 0.5;
+
       public static final double kIntakeEject = -0.3;
 
       public static final int kShooterCurrentLimit = 80;

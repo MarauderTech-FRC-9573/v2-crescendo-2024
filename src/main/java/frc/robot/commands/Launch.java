@@ -10,37 +10,41 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class LaunchSpeaker extends Command {
+public class Launch extends Command {
     private ShooterSubsystem shooterSubsystem;
-    private CANSparkMax bottom;
-    private CANSparkMax top; 
     private IntakeSubsystem intakeSubsystem;
-    private CANSparkMax intake;
+    private CANSparkMax topMotor, bottomMotor, intakeMotor;
+    private double topSpeed, bottomSpeed, intakeSpeed;
 
     private RelativeEncoder topEncoder, bottomEncoder;
     
-    public LaunchSpeaker(ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
+    public Launch(ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem, double topSpeed, double bottomSpeed, double intakeSpeed) {
         this.shooterSubsystem = shooterSubsystem;
         this.intakeSubsystem = intakeSubsystem;
-        bottom = shooterSubsystem.bottomShooterMotor;
-        top = shooterSubsystem.topShooterMotor;
-        intake = intakeSubsystem.intakeMotor;
+        this.bottomMotor = shooterSubsystem.bottomShooterMotor;
+        this.topMotor = shooterSubsystem.topShooterMotor;
+        this.intakeMotor = intakeSubsystem.intakeMotor;
 
-        topEncoder = top.getEncoder();
-        bottomEncoder = bottom.getEncoder();
+        this.topSpeed = topSpeed;
+        this.bottomSpeed = bottomSpeed;
+        this.intakeSpeed = intakeSpeed;
+
+        this.topEncoder = topMotor.getEncoder();
+        this.bottomEncoder = bottomMotor.getEncoder();
 
     }
     
     @Override 
     public void initialize() {
-        bottom.set(kSpeakerSpeed);
-        top.set(kSpeakerSpeed);
+        topMotor.set(topSpeed);
+        bottomMotor.set(bottomSpeed);
+
     }
     
     @Override
     public void execute() {
-        if (topEncoder.getVelocity() > 1000 && bottomEncoder.getVelocity() > 1000) {
-            intake.set(intakingSpeed);
+        if (topEncoder.getVelocity() > topSpeed*1000 && bottomEncoder.getVelocity() > bottomSpeed*1000) {
+            intakeMotor.set(intakeSpeed);
         }
     }
     
